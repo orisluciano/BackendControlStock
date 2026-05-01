@@ -40,7 +40,7 @@ class InyeccionServicios
 
     private function iniciarServicios()
     {
-        $this->_loginService = new LoginServicio(new RepoUsuario());
+        /*$this->_loginService = new LoginServicio(new RepoUsuario());
         $this->_userService = new UsuarioServicio(new RepoUsuario());
         $this->_trabajadorServicio = new TrabajadorServicio(new RepoTrabajador(), new RepoTrabajadorUsuario);
         $this->_tokenServicio = new TokenServicio();
@@ -51,10 +51,10 @@ class InyeccionServicios
         $this->_trabajadorUsuarioServicio = new TrabajadorUsuarioServicio(new RepoTrabajadorUsuario());
         $this->_tipoContactoServicio = new TipoContactoServicio(new RepoTipoContacto());
         $this->_sugerenciaServicio = new SugerenciaServicio(new RepoSugerencia());
-        $this->_favoritoServicio = new FavoritoServicio(new RepoFavorito());
+        $this->_favoritoServicio = new FavoritoServicio(new RepoFavorito());*/
     }
 
-    public function _getTokenServicio() : TokenServicio {
+    /*public function _getTokenServicio() : TokenServicio {
         return $this->_tokenServicio;
     }
 
@@ -99,7 +99,7 @@ class InyeccionServicios
 
     public function _getFavoritoServicio() : FavoritoServicio {
         return $this->_favoritoServicio;
-    }
+    }*/
 }
 
 ?>

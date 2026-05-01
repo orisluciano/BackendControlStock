@@ -1,15 +1,6 @@
 <?php
 require_once "./Infraestructura/Api/LoginController.php";
-require_once "./Infraestructura/Api/UsuarioController.php";
-require_once "./Infraestructura/Api/TrabajadorController.php";
-require_once "./Infraestructura/Api/TrabajadorRubroController.php";
-require_once "./Infraestructura/Api/TrabajadorContactoController.php";
-require_once "./Infraestructura/Api/TrabajadorOpinionController.php";
-require_once "./Infraestructura/Api/SugerenciaController.php";
-require_once "./Infraestructura/Api/RubroController.php";
-require_once "./Infraestructura/Api/TipoContactoController.php";
-require_once "./Infraestructura/Api/FavoritoController.php";
-require_once "./Infraestructura/Api/Utiles/InyeccionServicios.php";
+require_once "./Api/InyeccionServicios.php";
 require_once "./Api/Rutas.php";
 
 class Enrutador
@@ -38,8 +29,9 @@ class Enrutador
                 echo("Proximamente habra un dashboard");
                 break;
             case $this->rutas->login:
-                $loginController = new LoginController($this->metodo, $this->datos, $this->inyeccion->getLoginServicio());
-                $loginController->ejecutar();
+                /*$loginController = new LoginController($this->metodo, $this->datos, $this->inyeccion->getLoginServicio());
+                $loginController->ejecutar();*/
+                echo("Proximamente login");
                 break;
             default:
                 $respuesta = new RespuestaPeticion();
