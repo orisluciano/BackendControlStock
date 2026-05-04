@@ -8,6 +8,6 @@ header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
 $json = file_get_contents('php://input');
 $data = json_decode($json);
-$enrutador = new Enrutador($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD'], $data, trim($_SERVER["HTTP_AUTHORIZATION"], "Bearer"));
+$enrutador = new Enrutador($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD'], $data);
 $enrutador->dirigir();
 ?>

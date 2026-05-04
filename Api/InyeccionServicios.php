@@ -19,6 +19,8 @@ require_once "./Aplicacion/Servicios/TipoContactoServicio.php";
 require_once "./Aplicacion/Servicios/SugerenciaServicio.php";
 require_once "./Aplicacion/Servicios/FavoritoServicio.php";
 
+require_once "./Producto/Aplicacion/ProductoServicio.php";
+
 class InyeccionServicios
 {
     /*protected UsuarioServicio $_userService;
@@ -33,6 +35,7 @@ class InyeccionServicios
     protected TipoContactoServicio $_tipoContactoServicio;
     protected SugerenciaServicio $_sugerenciaServicio;
     protected FavoritoServicio $_favoritoServicio;*/
+    protected ProductoServicio $_productoServicio;
 
     public function __construct() {
         $this->iniciarServicios();
@@ -52,6 +55,11 @@ class InyeccionServicios
         $this->_tipoContactoServicio = new TipoContactoServicio(new RepoTipoContacto());
         $this->_sugerenciaServicio = new SugerenciaServicio(new RepoSugerencia());
         $this->_favoritoServicio = new FavoritoServicio(new RepoFavorito());*/
+        $this->_productoServicio = new ProductoServicio();
+    }
+
+    public function _getProductoServicio() : ProductoServicio {
+        return $this->_productoServicio;
     }
 
     /*public function _getTokenServicio() : TokenServicio {

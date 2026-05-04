@@ -4,6 +4,7 @@ require_once "./Api/HttpMethods.php";
 require_once "./Api/RespuestaPeticion.php";
 require_once "./Api/Mensajes.php";
 require_once "./Api/Errores.php";
+require_once "./Api/Acciones.php";
 
 class ProductoController implements IApiController
 {
@@ -13,14 +14,16 @@ class ProductoController implements IApiController
     protected HttpMethods $_metodos;
     protected Acciones $_acciones;
     protected Mensajes $_mensajes;
+    protected IProductoServicio $_prodServicio;
 
-    public function __construct($metodo, $datos, $parametros){
+    public function __construct($metodo, $datos, $parametros, IProductoServicio $_prodServicio){
         $this->_metodos = new HttpMethods();
         $this->_acciones = new Acciones();
         $this->_mensajes = new Mensajes();
         $this->_metodo = $metodo;
         $this->_datos = $datos;
         $this->_parametros = $parametros;
+        $this->_prodServicio = $_prodServicio;
     }
 
     public function _ejecutar(){
@@ -72,13 +75,13 @@ class ProductoController implements IApiController
 
     protected function _getFavoritos() : RespuestaPeticion{
         $respuesta = new RespuestaPeticion();
-        $cant = $this->_fvService->_getCantidad();
+        $cant = $this->_prodServicio->_getCantidad();
         if (count($cant->errores) > 0) {
             $respuesta->errores = $cant->errores;
             $respuesta->errores[] = "Hubo un error";
         } else {
             $respuesta->respuesta["cantidad"] = $cant->resultado;
-            $resServ = $this->_fvService->_getFavoritos($this->_parametros[0], $this->_parametros[1]);
+            $resServ = $this->_prodServicio->_getProductos($this->_parametros[0], $this->_parametros[1]);
             $respuesta->respuesta["resultados"] = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
         }

@@ -9,15 +9,13 @@ class Enrutador
     protected string $metodo;
     protected $datos;
     protected Rutas $rutas;
-    protected $token;
     protected InyeccionServicios $inyeccion;
 
-    public function __construct(string $dir, string $metodo, $datos, $token) {
+    public function __construct(string $dir, string $metodo, $datos) {
         $this->inyeccion = new InyeccionServicios();
         $this->url = $dir;
         $this->metodo = $metodo;
         $this->datos = $datos;
-        $this->token = $token;
         $this->rutas = new Rutas();
     }
 
@@ -34,7 +32,8 @@ class Enrutador
                 echo("Proximamente login");
                 break;
             case $this->rutas->producto:
-                echo("Proximamente producto");
+                $prodController = new ProductoController($this->metodo, $this->datos, $rutaResuelta['parametros'], $this->inyeccion->_getProductoServicio());
+                $prodController->_ejecutar();
                 break;
             default:
                 $respuesta = new RespuestaPeticion();
