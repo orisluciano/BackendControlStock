@@ -1,11 +1,89 @@
 <?php
+require_once "./Api/IApiController.php";
+require_once "./Api/HttpMethods.php";
+require_once "./Api/RespuestaPeticion.php";
+require_once "./Api/Mensajes.php";
+require_once "./Api/Errores.php";
+
 class ProductoController implements IApiController
 {
-    public function _ejecutar(){}
-    public function _get(){}
+    protected $_metodo;
+    protected $_datos;
+    protected $_parametros;
+    protected HttpMethods $_metodos;
+    protected Acciones $_acciones;
+    protected Mensajes $_mensajes;
+
+    public function __construct($metodo, $datos, $parametros){
+        $this->_metodos = new HttpMethods();
+        $this->_acciones = new Acciones();
+        $this->_mensajes = new Mensajes();
+        $this->_metodo = $metodo;
+        $this->_datos = $datos;
+        $this->_parametros = $parametros;
+    }
+
+    public function _ejecutar(){
+        $respuesta = new RespuestaPeticion();
+        switch($this->_metodo){
+            case $this->_metodos->GET:
+                $respuesta = $this->_get();
+                break;
+            case $this->_metodos->POST:
+                $respuesta = $this->_post();
+                break;
+            case $this->_metodos->PUT:
+                # code...
+                break;
+            case $this->_metodos->DELETE:
+                # code...
+                break;
+            }
+        echo(json_encode($respuesta));
+    }
+
+    public function _get(){
+        $respuesta = new RespuestaPeticion();
+                if ($this->_parametros != null) {
+                    $bandera = false;
+                    if (count($this->_parametros) === 1) {
+                        $respuesta = $this->_getFavorito();
+                        $bandera = true;
+                    }
+                    if (is_numeric($this->_parametros[0]) && is_numeric($this->_parametros[1])) {
+                        $respuesta = $this->_getFavoritos();
+                        $bandera = true;
+                    }
+                    if ($bandera === false) {
+                        $respuesta->errores[] = "Parametro equivocado";
+                    }
+                }else {
+                    $respuesta->errores[] = "No se proporciono ningun parametro";
+                }
+        return $respuesta;
+    }
     public function _post(){}
     public function _put(){}
     public function _delete(){}
+
+    protected function _getFavorito() : RespuestaPeticion {
+        return new RespuestaPeticion();
+    }
+
+    protected function _getFavoritos() : RespuestaPeticion{
+        $respuesta = new RespuestaPeticion();
+        $cant = $this->_fvService->_getCantidad();
+        if (count($cant->errores) > 0) {
+            $respuesta->errores = $cant->errores;
+            $respuesta->errores[] = "Hubo un error";
+        } else {
+            $respuesta->respuesta["cantidad"] = $cant->resultado;
+            $resServ = $this->_fvService->_getFavoritos($this->_parametros[0], $this->_parametros[1]);
+            $respuesta->respuesta["resultados"] = $resServ->resultado;
+            $respuesta->errores = $resServ->errores;
+        }
+        return $respuesta;
+    }
 }
 
 ?>

@@ -1,7 +1,7 @@
 <?php
-require_once "./Infraestructura/Api/LoginController.php";
 require_once "./Api/InyeccionServicios.php";
 require_once "./Api/Rutas.php";
+require_once "./Producto/Infraestrucura/ProductoController.php";
 
 class Enrutador
 {
@@ -32,6 +32,9 @@ class Enrutador
                 /*$loginController = new LoginController($this->metodo, $this->datos, $this->inyeccion->getLoginServicio());
                 $loginController->ejecutar();*/
                 echo("Proximamente login");
+                break;
+            case $this->rutas->producto:
+                echo("Proximamente producto");
                 break;
             default:
                 $respuesta = new RespuestaPeticion();

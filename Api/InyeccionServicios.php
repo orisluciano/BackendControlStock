@@ -21,7 +21,7 @@ require_once "./Aplicacion/Servicios/FavoritoServicio.php";
 
 class InyeccionServicios
 {
-    protected UsuarioServicio $_userService;
+    /*protected UsuarioServicio $_userService;
     protected LoginServicio $_loginService;
     protected TrabajadorServicio $_trabajadorServicio;
     protected TokenServicio $_tokenServicio;
@@ -32,7 +32,7 @@ class InyeccionServicios
     protected TrabajadorUsuarioServicio $_trabajadorUsuarioServicio;
     protected TipoContactoServicio $_tipoContactoServicio;
     protected SugerenciaServicio $_sugerenciaServicio;
-    protected FavoritoServicio $_favoritoServicio;
+    protected FavoritoServicio $_favoritoServicio;*/
 
     public function __construct() {
         $this->iniciarServicios();
