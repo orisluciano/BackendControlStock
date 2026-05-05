@@ -1,5 +1,5 @@
 <?php
-require_once "./Infraestructura/Persistencia/Repositorio/RepoUsuario.php";
+/*require_once "./Infraestructura/Persistencia/Repositorio/RepoUsuario.php";
 require_once "./Infraestructura/Persistencia/Repositorio/RepoTrabajador.php";
 require_once "./Infraestructura/Persistencia/Repositorio/RepoRubro.php";
 require_once "./Infraestructura/Persistencia/Repositorio/RepoTrabajadorRubro.php";
@@ -17,9 +17,10 @@ require_once "./Aplicacion/Servicios/TrabajadorOpinionServicio.php";
 require_once "./Aplicacion/Servicios/TrabajadorUsuarioServicio.php";
 require_once "./Aplicacion/Servicios/TipoContactoServicio.php";
 require_once "./Aplicacion/Servicios/SugerenciaServicio.php";
-require_once "./Aplicacion/Servicios/FavoritoServicio.php";
+require_once "./Aplicacion/Servicios/FavoritoServicio.php";*/
 
 require_once "./Producto/Aplicacion/ProductoServicio.php";
+require_once "./Producto/Infraestrucura/RepoProducto.php";
 
 class InyeccionServicios
 {
@@ -55,7 +56,7 @@ class InyeccionServicios
         $this->_tipoContactoServicio = new TipoContactoServicio(new RepoTipoContacto());
         $this->_sugerenciaServicio = new SugerenciaServicio(new RepoSugerencia());
         $this->_favoritoServicio = new FavoritoServicio(new RepoFavorito());*/
-        $this->_productoServicio = new ProductoServicio();
+        $this->_productoServicio = new ProductoServicio(new RepoProducto());
     }
 
     public function _getProductoServicio() : ProductoServicio {
