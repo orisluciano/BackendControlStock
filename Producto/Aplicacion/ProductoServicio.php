@@ -1,6 +1,7 @@
 <?php
 require_once "IProductoServicio.php";
 require_once "./Utiles/RespuestaServicioDatos.php";
+require_once "ProductoDTO.php";
 
 class ProductoServicio implements IProductoServicio
 {

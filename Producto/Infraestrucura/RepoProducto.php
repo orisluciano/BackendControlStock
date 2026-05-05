@@ -32,7 +32,7 @@ class RepoProducto implements IRepoProducto
         if ($this->_checkErrores($res->errores)) {
             $this->_resRepo->errores[] = "Error al solicitar lista de productos";
         } else {
-            $Consulta = "SELECT * FROM favoritos
+            $Consulta = "SELECT * FROM productos
             WHERE borrado = false
             LIMIT " . $desde . ","  . $cantidad;
             $sql = $res->conexion->prepare($Consulta);
@@ -57,7 +57,7 @@ class RepoProducto implements IRepoProducto
             $this->_resRepo->errores[] = "Error al solicitar la cantidad de productos";
         } else {
             $Consulta = "SELECT count(*) as cantidad
-            FROM favoritos
+            FROM productos
             WHERE borrado = false";
             $sql = $res->conexion->prepare($Consulta);
             try {
@@ -79,7 +79,7 @@ class RepoProducto implements IRepoProducto
         $t->_id = $respuestaBase['id'];
         $t->_borrado = $respuestaBase['borrado'];
         $t->_fechaCreacion = $respuestaBase['fechaCreacion'];
-        $t->_fechaModif = $respuestaBase['fechaModif'];
+        $t->_fechaModif = $respuestaBase['fechaMod'];
         $t->_nombre = $respuestaBase['nombre'];
         $t->_descripcion = $respuestaBase['descripcion'];
         $t->_codSKU = $respuestaBase['codSKU'];

@@ -11,7 +11,7 @@ class ConexionMySQL
         'host' => 'localhost',
         'username' => 'root',
         'password' => 'root',
-        'db' => 'ControlStockDB'
+        'db' => 'controlstockdb'
     ];
     protected RespuestaConexion $res;
     protected $mensaje = array();
