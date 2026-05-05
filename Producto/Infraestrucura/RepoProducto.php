@@ -28,10 +28,76 @@ class RepoProducto implements IRepoProducto
         return new RespuestaRepositorio();
     }
     public function _getTodo(int $desde, int $cantidad) : RespuestaRepositorio{
-        return new RespuestaRepositorio();
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al solicitar lista de productos";
+        } else {
+            $Consulta = "SELECT * FROM favoritos
+            WHERE borrado = false
+            LIMIT " . $desde . ","  . $cantidad;
+            $sql = $res->conexion->prepare($Consulta);
+            try {
+                $sql->execute();
+                $sql->setFetchMode(PDO::FETCH_ASSOC);
+                $respuestaBase = $sql->fetchAll();
+                $listaMapeada = [];
+                foreach ($respuestaBase as $key){
+                    $listaMapeada[] = $this->_MapearEntidad($key);
+                }
+                $this->_resRepo->resultado = $listaMapeada;
+            } catch (\Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
+        return ($this->_resRepo);
     }
     public function _getCantidad() : RespuestaRepositorio{
-        return new RespuestaRepositorio();
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al solicitar la cantidad de productos";
+        } else {
+            $Consulta = "SELECT count(*) as cantidad
+            FROM favoritos
+            WHERE borrado = false";
+            $sql = $res->conexion->prepare($Consulta);
+            try {
+                $sql->execute();
+                $sql->setFetchMode(PDO::FETCH_ASSOC);
+                $respuestaBase = $sql->fetchAll();
+                $this->_resRepo->resultado = $respuestaBase[0]["cantidad"];
+            } catch (\Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
+        $this->_conn->disconnect();
+        return ($this->_resRepo);
+    }
+
+    private function _MapearEntidad($respuestaBase) : Producto
+    {
+        $t = new Producto();
+        $t->_id = $respuestaBase['id'];
+        $t->_borrado = $respuestaBase['borrado'];
+        $t->_fechaCreacion = $respuestaBase['fechaCreacion'];
+        $t->_fechaModif = $respuestaBase['fechaModif'];
+        $t->_nombre = $respuestaBase['nombre'];
+        $t->_descripcion = $respuestaBase['descripcion'];
+        $t->_codSKU = $respuestaBase['codSKU'];
+        $t->_tipoProdId = $respuestaBase['tipoProdId'];
+        return $t;
+    }
+
+    private function _checkErrores($listaErrores){
+        $hayErrores = null;
+        if (count($listaErrores)  > 0) {
+            foreach ($listaErrores as $e) {
+                $this->_resRepo->errores[] = $e;
+            };
+            $hayErrores = true;
+        } else{
+            $hayErrores = false;
+        }
+        return ($hayErrores);
     }
 }
 

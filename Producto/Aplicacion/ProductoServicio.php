@@ -25,10 +25,62 @@ class ProductoServicio implements IProductoServicio
         return new RespuestaServicioDatos();
     }
     public function _getProductos(int $desde, int $cantidad) : RespuestaServicioDatos{
-        return new RespuestaServicioDatos();
+        $respuesta = new RespuestaServicioDatos();
+        $resRepo = $this->_repo->_getTodo($desde, $cantidad);
+        if ($this->_checkErrores($resRepo->errores)) {
+            $respuesta->errores = $resRepo->errores;
+            $respuesta->errores[] = "Error en el servicio";
+        } else {
+            $listaT = $resRepo->resultado;
+            $listaMapeada = [];
+            foreach ($listaT as $key) {
+                $listaMapeada[] = $this->_MapearEntidadDto($key);
+            }
+            $respuesta->resultado = $listaMapeada;
+        }
+        return $respuesta;
     }
     public function _getCantidad() : RespuestaServicioDatos{
-        return new RespuestaServicioDatos();
+        $respuesta = new RespuestaServicioDatos();
+        $resRepo = $this->_repo->_getCantidad();
+        $respuesta->resultado = $resRepo->resultado;
+        $respuesta->errores = $resRepo->errores;
+        return $respuesta;
+    }
+
+    private function _MapearDtoEntidad(ProductoDTO $dto) : Producto {
+        $t = new Producto();
+        $t->_id = $dto->id;
+        $t->_fechaCreacion = $dto->fechaCreacion;
+        $t->_fechaModif = $dto->fechaModif;
+        $t->_nombre = $dto->_nombre;
+        $t->_codSKU = $dto->_codSKU;
+        $t->_descripcion = $dto->_descripcion;
+        $t->_tipoProdId = $dto->_tipoProdId;
+        return $t;
+    }
+
+    private function _MapearEntidadDto(Producto $entidad) : ProductoDTO {
+        $dto = new ProductoDTO();
+        $dto->id = $entidad->_id;
+        $dto->fechaCreacion = $entidad->_fechaCreacion;
+        $dto->fechaModif = $entidad->_fechaModif;
+        $dto->_nombre = $entidad->_nombre;
+        $dto->_codSKU = $entidad->_codSKU;
+        $dto->_descripcion = $entidad->_descripcion;
+        $dto->_tipoProdId = $entidad->_tipoProdId;
+        return $dto;
+    }
+
+    private function _checkErrores($listaErrores){
+        $hayErrores = null;
+        if (count($listaErrores)  > 0) {
+            $this->_respuesta->errores = $listaErrores;
+            $hayErrores = true;
+        } else{
+            $hayErrores = false;
+        }
+        return ($hayErrores);
     }
 }
 
