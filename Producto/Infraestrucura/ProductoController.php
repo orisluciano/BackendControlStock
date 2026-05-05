@@ -47,33 +47,27 @@ class ProductoController implements IApiController
 
     public function _get(){
         $respuesta = new RespuestaPeticion();
-                if ($this->_parametros != null) {
-                    $bandera = false;
-                    if (count($this->_parametros) === 1) {
-                        $respuesta = $this->_getFavorito();
-                        $bandera = true;
-                    }
-                    if (is_numeric($this->_parametros[0]) && is_numeric($this->_parametros[1])) {
-                        $respuesta = $this->_getFavoritos();
-                        $bandera = true;
-                    }
-                    if ($bandera === false) {
-                        $respuesta->errores[] = "Parametro equivocado";
-                    }
-                }else {
-                    $respuesta->errores[] = "No se proporciono ningun parametro";
-                }
+        if ($this->_parametros != null) {
+            if (count($this->_parametros) > 1) {
+                $respuesta = $this->_getProductos();
+            } else {
+                $respuesta = $this->_getproducto();
+            }
+            
+        } else {
+            $respuesta->errores[] = "No se proporciono ningun parametro";
+        }
         return $respuesta;
     }
     public function _post(){}
     public function _put(){}
     public function _delete(){}
 
-    protected function _getFavorito() : RespuestaPeticion {
+    protected function _getproducto() : RespuestaPeticion {
         return new RespuestaPeticion();
     }
 
-    protected function _getFavoritos() : RespuestaPeticion{
+    protected function _getProductos() : RespuestaPeticion{
         $respuesta = new RespuestaPeticion();
         $cant = $this->_prodServicio->_getCantidad();
         if (count($cant->errores) > 0) {
