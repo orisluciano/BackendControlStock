@@ -54,10 +54,10 @@ class ProductoServicio implements IProductoServicio
         $t->_id = $dto->id;
         $t->_fechaCreacion = $dto->fechaCreacion;
         $t->_fechaModif = $dto->fechaModif;
-        $t->_nombre = $dto->_nombre;
-        $t->_codSKU = $dto->_codSKU;
-        $t->_descripcion = $dto->_descripcion;
-        $t->_tipoProdId = $dto->_tipoProdId;
+        $t->_nombre = $dto->nombre;
+        $t->_codSKU = $dto->codSKU;
+        $t->_descripcion = $dto->descripcion;
+        $t->_tipoProdId = $dto->tipoProdId;
         return $t;
     }
 
@@ -66,10 +66,10 @@ class ProductoServicio implements IProductoServicio
         $dto->id = $entidad->_id;
         $dto->fechaCreacion = $entidad->_fechaCreacion;
         $dto->fechaModif = $entidad->_fechaModif;
-        $dto->_nombre = $entidad->_nombre;
-        $dto->_codSKU = $entidad->_codSKU;
-        $dto->_descripcion = $entidad->_descripcion;
-        $dto->_tipoProdId = $entidad->_tipoProdId;
+        $dto->nombre = $entidad->_nombre;
+        $dto->codSKU = $entidad->_codSKU;
+        $dto->descripcion = $entidad->_descripcion;
+        $dto->tipoProdId = $entidad->_tipoProdId;
         return $dto;
     }
 
