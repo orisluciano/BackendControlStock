@@ -9,8 +9,8 @@ class ConexionMySQL
         'password' => 'root',
         'db' => 'laburitoyadb'*/ //Cambiar al nombre de tu base de datos
         'host' => 'localhost',
-        'username' => 'root',
-        'password' => 'root',
+        'username' => 'c2740163_loris',
+        'password' => 'MiConexionDB2024',
         'db' => 'controlstockdb'
     ];
     protected RespuestaConexion $res;
