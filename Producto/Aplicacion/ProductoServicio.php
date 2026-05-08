@@ -14,7 +14,15 @@ class ProductoServicio implements IProductoServicio
     }
 
     public function _nuevo(ProductoDTO $producto) : RespuestaServicioDatos{
-        return new RespuestaServicioDatos();
+        $nuevo = new Producto();
+        $nuevo->_nombre = $producto->nombre;
+        $nuevo->_descripcion = $producto->descripcion;
+        $nuevo->_codSKU = $producto->codSKU;
+        $nuevo->_tipoProdId = $producto->tipoProdId;
+        $resRepo = $this->_repo->_crear($nuevo);
+        $this->_respuesta->errores = $resRepo->errores;
+        $this->_respuesta->mensajes = $resRepo->mensajes;
+        return $this->_respuesta;
     }
     public function _modificar(ProductoDTO $producto) : RespuestaServicioDatos{
         return new RespuestaServicioDatos();

@@ -59,7 +59,37 @@ class ProductoController implements IApiController
         }
         return $respuesta;
     }
-    public function _post(){}
+    public function _post(){print_r(empty($this->_datos));
+        $respuesta = new RespuestaPeticion();
+        if (empty($this->_datos)) {
+            $respuesta->errores[] = "Faltan todos los datos";
+        }else {
+            if (!property_exists($this->_datos, "nombre")) {
+                $respuesta->errores[] = "Falta nombre del producto";
+            }
+            if (!property_exists($this->_datos, "descripcion")) {
+                $respuesta->errores[] = "Falta descripcion del producto";
+            }
+            if (!property_exists($this->_datos, "codSKU")) {
+                $respuesta->errores[] = "Falta codigo";
+            }
+            if (!property_exists($this->_datos, "tipoProductoId")) {
+                $respuesta->errores[] = "Falta tipoProductoId";
+            }
+        }
+        if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
+            $producto = new ProductoDTO();
+            $producto->nombre = $this->_datos->nombre;
+            $producto->descripcion = $this->_datos->descripcion;
+            $producto->codSKU = $this->_datos->codSKU;
+            $producto->tipoProdId = $this->_datos->tipoProductoId;
+            $resServ = $this->_prodServicio->_nuevo($producto);
+            $respuesta->respuesta = $resServ->resultado;
+            $respuesta->errores = $resServ->errores;
+            $respuesta->mensajes = $resServ->mensajes;
+        }
+        return $respuesta;
+    }
     public function _put(){}
     public function _delete(){}
 

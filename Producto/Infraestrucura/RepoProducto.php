@@ -16,7 +16,27 @@ class RepoProducto implements IRepoProducto
     }
 
     public function _crear(Producto $entidad) : RespuestaRepositorio{
-        return new RespuestaRepositorio();
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al modificar usuario";
+        } else {
+            try {
+                $consulta = "INSERT INTO productos
+                VALUES (null, 0, :nombre, :descripcion, :codSKU, 0, :tipoUsuarioId, curtime(), curtime())";
+                $consulta = "INSERT INTO productos
+                VALUES (null, curtime(), curtime(), 0, :nombre, :descripcion, :codSKU, :tipoProductoId)";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":nombre", $entidad->_nombre);
+                $servicio->bindValue(":descripcion", $entidad->_descripcion);
+                $servicio->bindValue(":codSKU", $entidad->_codSKU);
+                $servicio->bindVAlue(":tipoProductoId", $entidad->_tipoProdId);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Creacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
+        return $this->_resRepo;
     }
     public function _modificar(Producto $entidad) : RespuestaRepositorio{
         return new RespuestaRepositorio();
