@@ -66,10 +66,17 @@ class ProductoController implements IApiController
         }else {
             if (!property_exists($this->_datos, "nombre")) {
                 $respuesta->errores[] = "Falta nombre del producto";
+            }else {
+                if ($this->_datos->nombre === null) {
+                    $respuesta->errores[] = "El nombre no puede estar vacio";
+                }
             }
             if (!property_exists($this->_datos, "descripcion")) {
                 $respuesta->errores[] = "Falta descripcion del producto";
+            }elseif ($this->_datos->descripcion === null) {
+                $respuesta->errores[] = "La descripcion no puede estar vacia";
             }
+
             if (!property_exists($this->_datos, "codSKU")) {
                 $respuesta->errores[] = "Falta codigo";
             }
