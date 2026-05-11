@@ -25,10 +25,38 @@ class ProductoServicio implements IProductoServicio
         return $this->_respuesta;
     }
     public function _modificar(ProductoDTO $producto) : RespuestaServicioDatos{
-        return new RespuestaServicioDatos();
+        if ($producto->id === null) {
+            $this->_respuesta->errores[] = "El id no puede estar nulo";
+        }
+        if ($producto->nombre === null) {
+            $this->_respuesta->errores[] = "El nombre no puede estar nulo";
+        }
+        if ($producto->descripcion === null) {
+            $this->_respuesta->errores[] = "El nombre no puede estar nulo";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $mod = new Producto();
+            $mod->_id =$producto->id;
+            $mod->_nombre = $producto->nombre;
+            $mod->_descripcion = $producto->descripcion;
+            $mod->_codSKU = $producto->codSKU;
+            $mod->_tipoProdId = $producto->tipoProdId;
+            $resRepo = $this->_repo->_modificar($mod);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
+        return $this->_respuesta;
     }
     public function _eliminar($id) : RespuestaServicioDatos{
-        return new RespuestaServicioDatos();
+        if ($id === null) {
+            $this->_respuesta->errores[] = "El id no puede estar nulo";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $resRepo = $this->_repo->_eliminar($id);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
+        return $this->_respuesta;
     }
     public function _getById(int $id) : RespuestaServicioDatos{
         return new RespuestaServicioDatos();

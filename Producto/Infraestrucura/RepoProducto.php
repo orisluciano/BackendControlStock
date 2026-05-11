@@ -39,10 +39,46 @@ class RepoProducto implements IRepoProducto
         return $this->_resRepo;
     }
     public function _modificar(Producto $entidad) : RespuestaRepositorio{
-        return new RespuestaRepositorio();
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al modificar producto";
+        } else{
+            $consulta = "update productos
+            set nombre = :nombre, descripcion = :descripcion, codSKU = :codSKU, tipoProdId = :tipoProductoId, fechaMod = curtime()
+            where id = :id";
+            try {
+                $sql = $res->conexion->prepare($consulta);
+                $sql->bindValue(":nombre", $entidad->_nombre);
+                $sql->bindValue(":descripcion", $entidad->_descripcion);
+                $sql->bindValue(":id", $entidad->_id);
+                $sql->bindValue(":codSKU", $entidad->_codSKU);
+                $sql->bindValue(":tipoProductoId", $entidad->_tipoProdId);
+                $sql->execute();
+                $this->_resRepo->mensajes[] = "Modificacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
+        return $this->_resRepo;
     }
     public function _eliminar(int $id) : RespuestaRepositorio{
-        return new RespuestaRepositorio();
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al modificar producto";
+        } else{
+            $consulta = "update productos
+            set borrado = true, fechaMod = curtime()
+            where id = :id";
+            try {
+                $sql = $res->conexion->prepare($consulta);
+                $sql->bindValue(":id", $id);
+                $sql->execute();
+                $this->_resRepo->mensajes[] = "Eliminacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
+        return $this->_resRepo;
     }
     public function _getById(int $id) : RespuestaRepositorio{
         return new RespuestaRepositorio();

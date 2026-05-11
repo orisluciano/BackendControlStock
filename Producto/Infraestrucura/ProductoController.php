@@ -36,10 +36,10 @@ class ProductoController implements IApiController
                 $respuesta = $this->_post();
                 break;
             case $this->_metodos->PUT:
-                # code...
+                $respuesta = $this->_put();
                 break;
             case $this->_metodos->DELETE:
-                # code...
+                $respuesta = $this->_delete();
                 break;
             }
         echo(json_encode($respuesta));
@@ -59,7 +59,7 @@ class ProductoController implements IApiController
         }
         return $respuesta;
     }
-    public function _post(){print_r(empty($this->_datos));
+    public function _post(){
         $respuesta = new RespuestaPeticion();
         if (empty($this->_datos)) {
             $respuesta->errores[] = "Faltan todos los datos";
@@ -86,6 +86,7 @@ class ProductoController implements IApiController
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
             $producto = new ProductoDTO();
+            $producto->id = $this->_datos->id;
             $producto->nombre = $this->_datos->nombre;
             $producto->descripcion = $this->_datos->descripcion;
             $producto->codSKU = $this->_datos->codSKU;
@@ -97,8 +98,58 @@ class ProductoController implements IApiController
         }
         return $respuesta;
     }
-    public function _put(){}
-    public function _delete(){}
+    public function _put(){
+        $respuesta = new RespuestaPeticion();
+        if (empty($this->_datos)) {
+            $respuesta->errores[] = "Faltan todos los datos";
+        }else {
+            if (!property_exists($this->_datos, "id" )|| $this->_datos->id === null) {
+                $respuesta->errores[] = "Falta id";
+            }
+            if (!property_exists($this->_datos, "nombre") || $this->_datos->nombre === null) {
+                $respuesta->errores[] = "Falta nombre del producto";
+            }
+            if (!property_exists($this->_datos, "descripcion") || $this->_datos->descripcion === null) {
+                $respuesta->errores[] = "Falta descripcion del producto";
+            }
+            if (!property_exists($this->_datos, "codSKU")) {
+                $respuesta->errores[] = "Falta codigo";
+            }
+            if (!property_exists($this->_datos, "tipoProductoId")) {
+                $respuesta->errores[] = "Falta tipoProductoId";
+            }
+        }
+        if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
+            $producto = new ProductoDTO();
+            $producto->id = $this->_datos->id;
+            $producto->nombre = $this->_datos->nombre;
+            $producto->descripcion = $this->_datos->descripcion;
+            $producto->codSKU = $this->_datos->codSKU;
+            $producto->tipoProdId = $this->_datos->tipoProductoId;
+            $resServ = $this->_prodServicio->_modificar($producto);
+            $respuesta->respuesta = $resServ->resultado;
+            $respuesta->errores = $resServ->errores;
+            $respuesta->mensajes = $resServ->mensajes;
+        }
+        return $respuesta;
+    }
+    public function _delete(){
+        $respuesta = new RespuestaPeticion();
+        if (empty($this->_datos)) {
+            $respuesta->errores[] = "Faltan todos los datos";
+        }else {
+            if (!property_exists($this->_datos, "id" )|| $this->_datos->id === null) {
+                $respuesta->errores[] = "Falta id";
+            }
+        }
+        if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
+            $resServ = $this->_prodServicio->_eliminar($this->_datos->id);
+            $respuesta->respuesta = $resServ->resultado;
+            $respuesta->errores = $resServ->errores;
+            $respuesta->mensajes = $resServ->mensajes;
+        }
+        return $respuesta;
+    }
 
     protected function _getproducto() : RespuestaPeticion {
         return new RespuestaPeticion();
