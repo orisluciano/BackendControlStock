@@ -125,7 +125,7 @@ class ProductoController implements IApiController
             $producto->nombre = $this->_datos->nombre;
             $producto->descripcion = $this->_datos->descripcion;
             $producto->codSKU = $this->_datos->codSKU;
-            $producto->tipoProdId = $this->_datos->tipoProductoId;
+            $producto->tipoProdId = (int)$this->_datos->tipoProductoId;
             $resServ = $this->_prodServicio->_modificar($producto);
             $respuesta->respuesta = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
