@@ -86,11 +86,11 @@ class ProductoController implements IApiController
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
             $producto = new ProductoDTO();
-            $producto->id = $this->_datos->id;
+            //$producto->id = $this->_datos->id;
             $producto->nombre = $this->_datos->nombre;
             $producto->descripcion = $this->_datos->descripcion;
             $producto->codSKU = $this->_datos->codSKU;
-            $producto->tipoProdId = $this->_datos->tipoProductoId;
+            $producto->tipoProdId = (int)$this->_datos->tipoProductoId;
             $resServ = $this->_prodServicio->_nuevo($producto);
             $respuesta->respuesta = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
