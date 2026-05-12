@@ -1,6 +1,8 @@
 <?php
 require_once "./Producto/Aplicacion/ProductoServicio.php";
 require_once "./Producto/Infraestrucura/RepoProducto.php";
+require_once "./Precio/Aplicacion/PrecioServicio.php";
+require_once "./Precio/Infraestructura/RepoPrecio.php";
 
 class InyeccionServicios
 {

@@ -2,6 +2,7 @@
 require_once "./Api/InyeccionServicios.php";
 require_once "./Api/Rutas.php";
 require_once "./Producto/Infraestrucura/ProductoController.php";
+require_once "./Precio/Infraestructura/PrecioController.php";
 
 class Enrutador
 {
@@ -36,7 +37,7 @@ class Enrutador
                 $prodController->_ejecutar();
                 break;
             case $this->rutas->precio:
-                # code...
+                $precioController = new PrecioController($this->metodo, $this->datos, $rutaResuelta['parametros'], $this->inyeccion->_getPrecioServicio());
                 break;
             default:
                 $respuesta = new RespuestaPeticion();

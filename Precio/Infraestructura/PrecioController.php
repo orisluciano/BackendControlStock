@@ -14,16 +14,16 @@ class PrecioController implements IApiController
     protected HttpMethods $_metodos;
     protected Acciones $_acciones;
     protected Mensajes $_mensajes;
-    protected IProductoServicio $_prodServicio;
+    protected IPrecioServicio $_precioServicio;
 
-    public function __construct($metodo, $datos, $parametros, IProductoServicio $_prodServicio){
+    public function __construct($metodo, $datos, $parametros, IPrecioServicio $_precioServicio){
         $this->_metodos = new HttpMethods();
         $this->_acciones = new Acciones();
         $this->_mensajes = new Mensajes();
         $this->_metodo = $metodo;
         $this->_datos = $datos;
         $this->_parametros = $parametros;
-        $this->_prodServicio = $_prodServicio;
+        $this->_precioServicio = $_precioServicio;
     }
 
     public function _ejecutar(){
@@ -85,16 +85,16 @@ class PrecioController implements IApiController
             }
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $producto = new ProductoDTO();
+            $producto = new PrecioDTO();
             //$producto->id = $this->_datos->id;
-            $producto->nombre = $this->_datos->nombre;
+            /*$producto->nombre = $this->_datos->nombre;
             $producto->descripcion = $this->_datos->descripcion;
             $producto->codSKU = $this->_datos->codSKU;
             $producto->tipoProdId = (int)$this->_datos->tipoProductoId;
-            $resServ = $this->_prodServicio->_nuevo($producto);
+            $resServ = $this->_precioServicio->_nuevo($precio);
             $respuesta->respuesta = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
-            $respuesta->mensajes = $resServ->mensajes;
+            $respuesta->mensajes = $resServ->mensajes;*/
         }
         return $respuesta;
     }
@@ -121,12 +121,12 @@ class PrecioController implements IApiController
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
             $producto = new ProductoDTO();
-            $producto->id = $this->_datos->id;
+            /*$producto->id = $this->_datos->id;
             $producto->nombre = $this->_datos->nombre;
             $producto->descripcion = $this->_datos->descripcion;
             $producto->codSKU = $this->_datos->codSKU;
             $producto->tipoProdId = (int)$this->_datos->tipoProductoId;
-            $resServ = $this->_prodServicio->_modificar($producto);
+            $resServ = $this->_prodServicio->_modificar($producto);*/
             $respuesta->respuesta = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
             $respuesta->mensajes = $resServ->mensajes;
