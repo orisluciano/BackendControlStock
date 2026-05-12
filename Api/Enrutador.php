@@ -35,6 +35,9 @@ class Enrutador
                 $prodController = new ProductoController($this->metodo, $this->datos, $rutaResuelta['parametros'], $this->inyeccion->_getProductoServicio());
                 $prodController->_ejecutar();
                 break;
+            case $this->rutas->precio:
+                # code...
+                break;
             default:
                 $respuesta = new RespuestaPeticion();
                 $respuesta->errores[] = "Ese elemento no existe";
