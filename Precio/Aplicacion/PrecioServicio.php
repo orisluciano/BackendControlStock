@@ -20,7 +20,26 @@ class PrecioServicio implements IPrecioServicio
     public function _eliminar(int $id) : RespuestaServicioDatos{return new RespuestaServicioDatos();}
     public function _getById(int $id) : RespuestaServicioDatos{return new RespuestaServicioDatos();}
     public function _getPrecios(int $desde, int $cantidad) : RespuestaServicioDatos{return new RespuestaServicioDatos();}
-    public function _getByIdFechas(int $id, string $desde, string $hasta) : RespuestaServicioDatos{return new RespuestaServicioDatos();}
+
+    public function _getByIdFechas(int $id, string $desde, string $hasta) : RespuestaServicioDatos{
+        $respuesta = new RespuestaServicioDatos();
+        if (!is_numeric($id)) {
+            $respuesta->errores[] = "Se proporciono un campo no numerico";
+        }
+        $resRepo = $this->_repo->_getByProductoId($id, $desde, $hasta);
+        if ($this->_checkErrores($resRepo->errores)) {
+            $respuesta->errores = $resRepo->errores;
+            $respuesta->errores[] = "Error en el servicio";
+        } else {
+            $listaT = $resRepo->resultado;
+            $listaMapeada = [];
+            foreach ($listaT as $key) {
+                $listaMapeada[] = $this->_MapearEntidadDto($key);
+            }
+            $respuesta->resultado = $listaMapeada;
+        }
+        return $respuesta;
+    }
     
     public function _getCantidad() : RespuestaServicioDatos{
         $respuesta = new RespuestaServicioDatos();
@@ -30,27 +49,25 @@ class PrecioServicio implements IPrecioServicio
         return $respuesta;
     }
 
-    private function _MapearDtoEntidad(ProductoDTO $dto) : Producto {
-        $t = new Producto();
+    private function _MapearDtoEntidad(PrecioDTO $dto) : Precio {
+        $t = new Precio();
         $t->_id = $dto->id;
         $t->_fechaCreacion = $dto->fechaCreacion;
         $t->_fechaModif = $dto->fechaModif;
-        $t->_nombre = $dto->nombre;
-        $t->_codSKU = $dto->codSKU;
-        $t->_descripcion = $dto->descripcion;
-        $t->_tipoProdId = $dto->tipoProdId;
+        $t->_costo = $dto->costo;
+        $t->_venta = $dto->venta;
+        $t->_productoId = $dto->productoId;
         return $t;
     }
 
-    private function _MapearEntidadDto(Producto $entidad) : ProductoDTO {
-        $dto = new ProductoDTO();
+    private function _MapearEntidadDto(Precio $entidad) : PrecioDTO {
+        $dto = new PrecioDTO();
         $dto->id = $entidad->_id;
         $dto->fechaCreacion = $entidad->_fechaCreacion;
         $dto->fechaModif = $entidad->_fechaModif;
-        $dto->nombre = $entidad->_nombre;
-        $dto->codSKU = $entidad->_codSKU;
-        $dto->descripcion = $entidad->_descripcion;
-        $dto->tipoProdId = $entidad->_tipoProdId;
+        $dto->costo = $entidad->_costo;
+        $dto->venta = $entidad->_venta;
+        $dto->productoId = $entidad->_productoId;
         return $dto;
     }
 

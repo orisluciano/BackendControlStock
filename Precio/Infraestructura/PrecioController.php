@@ -49,9 +49,9 @@ class PrecioController implements IApiController
         $respuesta = new RespuestaPeticion();
         if ($this->_parametros != null) {
             if (count($this->_parametros) > 1) {
-                $respuesta = $this->_getProductos();
+                $respuesta = $this->_getPreciosByProductoId();
             } else {
-                $respuesta = $this->_getproducto();
+                $respuesta = $this->_getprecio();
             }
             
         } else {
@@ -151,21 +151,20 @@ class PrecioController implements IApiController
         return $respuesta;
     }
 
-    protected function _getproducto() : RespuestaPeticion {
+    protected function _getprecio() : RespuestaPeticion {
         return new RespuestaPeticion();
     }
 
-    protected function _getProductos() : RespuestaPeticion{
+    protected function _getPreciosByProductoId() : RespuestaPeticion{
         $respuesta = new RespuestaPeticion();
-        $cant = $this->_prodServicio->_getCantidad();
-        if (count($cant->errores) > 0) {
-            $respuesta->errores = $cant->errores;
-            $respuesta->errores[] = "Hubo un error";
-        } else {
-            $respuesta->respuesta["cantidad"] = $cant->resultado;
-            $resServ = $this->_prodServicio->_getProductos($this->_parametros[0], $this->_parametros[1]);
-            $respuesta->respuesta["resultados"] = $resServ->resultado;
-            $respuesta->errores = $resServ->errores;
+        if (!is_numeric($this->_parametros[0])) {
+            $respuesta->errores[] = "El id debe ser numerico";
+        }
+        if (count($respuesta->errores) === 0) {
+            $precios = $this->_precioServicio->_getByIdFechas($this->_parametros[0], $this->_parametros[1], $this->_parametros[2]);
+            $respuesta->respuesta["resultados"] = $precios->resultado;
+            $respuesta->errores = $precios->errores;
+            $respuesta->mensajes = $precios->mensajes;
         }
         return $respuesta;
     }

@@ -38,6 +38,7 @@ class Enrutador
                 break;
             case $this->rutas->precio:
                 $precioController = new PrecioController($this->metodo, $this->datos, $rutaResuelta['parametros'], $this->inyeccion->_getPrecioServicio());
+                $precioController->_ejecutar();
                 break;
             default:
                 $respuesta = new RespuestaPeticion();
