@@ -42,7 +42,7 @@ final class RepoPrecio implements IRepoPrecio
             WHERE borrado = false
             LIMIT " . $desde . ","  . $cantidad;*/
             $Consulta = "SELECT * FROM precios
-            WHERE fechaMod >= '" . $desde . "' AND fechaMod <= '" . $hasta . "' AND productoId = " . $productoId;
+            WHERE fechaMod >= '" . $desde . "' AND fechaMod <= '" . $hasta . "' AND productoId = " . $productoId . " order by id desc";
             $sql = $res->conexion->prepare($Consulta);
             try {
                 $sql->execute();

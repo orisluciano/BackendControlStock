@@ -8,6 +8,7 @@ interface IRepoPrecio
     public function _getTodo(int $desde, int $cantidad) : RespuestaRepositorio;
     public function _getCantidad() : RespuestaRepositorio;
     public function _getByProductoId(int $productoId, string $desde, string $hasta) : RespuestaRepositorio;
+    public function _getUltimoById(int $id) : RespuestaRepositorio;
 }
 
 ?>
