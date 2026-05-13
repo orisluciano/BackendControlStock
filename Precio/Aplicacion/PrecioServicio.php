@@ -49,6 +49,23 @@ class PrecioServicio implements IPrecioServicio
         return $respuesta;
     }
 
+    public function _getUltimoById(int $id) : RespuestaServicioDatos{
+        $respuesta = new RespuestaServicioDatos();
+        $resRepo = $this->_repo->_getUltimoById($id);
+        if ($this->_checkErrores($resRepo->errores)) {
+            $respuesta->errores = $resRepo->errores;
+            $respuesta->errores[] = "Error en el servicio";
+        } else {
+            $listaT = $resRepo->resultado;
+            $listaMapeada = [];
+            foreach ($listaT as $key) {
+                $listaMapeada[] = $this->_MapearEntidadDto($key);
+            }
+            $respuesta->resultado = $listaMapeada;
+        }
+        return $respuesta;
+    }
+
     private function _MapearDtoEntidad(PrecioDTO $dto) : Precio {
         $t = new Precio();
         $t->_id = $dto->id;

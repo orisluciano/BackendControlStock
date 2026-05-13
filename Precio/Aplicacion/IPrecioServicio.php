@@ -8,5 +8,6 @@ interface IPrecioServicio
     public function _getPrecios(int $desde, int $cantidad) : RespuestaServicioDatos;
     public function _getByIdFechas(int $id, string $desde, string $hasta) : RespuestaServicioDatos;
     public function _getCantidad() : RespuestaServicioDatos;
+    public function _getUltimoById(int $id) : RespuestaServicioDatos;
 }
 ?>

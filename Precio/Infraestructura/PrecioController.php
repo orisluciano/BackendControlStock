@@ -49,7 +49,23 @@ class PrecioController implements IApiController
         $respuesta = new RespuestaPeticion();
         if ($this->_parametros != null) {
             if (count($this->_parametros) > 1) {
-                $respuesta = $this->_getPreciosByProductoId();
+                /*if (is_numeric($this->_parametros[0])) {
+                    $respuesta = $this->_getPreciosByProductoId();
+                }
+                if ($this->_parametros[0] === "ultimoPrecio") {
+                    # code...
+                }*/switch ($this->_parametros) {
+                    case is_numeric($this->_parametros[0]):
+                        $respuesta = $this->_getPreciosByProductoId();
+                        break;
+                    case $this->_parametros[0] === "ultimoprecio":
+                        $respuesta = $this->_getUltimoById();
+                        break;
+                    
+                    default:
+                        $respuesta->errores[] = "No coincide ningun parametro";
+                        break;
+                }
             } else {
                 $respuesta = $this->_getprecio();
             }
@@ -166,6 +182,20 @@ class PrecioController implements IApiController
             $respuesta->errores = $precios->errores;
             $respuesta->mensajes = $precios->mensajes;
         }
+        return $respuesta;
+    }
+
+    protected function _getUltimoById() : RespuestaPeticion {
+        $respuesta = new RespuestaPeticion();
+        if (is_numeric($this->_parametros[1])) {
+            $precios = $this->_precioServicio->_getUltimoById($this->_parametros[1]);
+            $respuesta->respuesta["resultados"] = $precios->resultado;
+            $respuesta->errores = $precios->errores;
+            $respuesta->mensajes = $precios->mensajes;
+        }else {
+            $respuesta->errores = "No se proporciono el Id del producto";
+        }
+    
         return $respuesta;
     }
 }
