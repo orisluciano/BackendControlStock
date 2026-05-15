@@ -9,3 +9,15 @@ CREATE TABLE `controlstockdb`.`precios` (
   `venta` DECIMAL(10,2) NULL,
   `productoId` INT NULL,
   PRIMARY KEY (`id`));
+
+  CREATE TABLE `controlstockdb`.`stock` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fechaCreacion` DATETIME NULL,
+  `fechaMod` DATETIME NULL,
+  `borrado` TINYINT NULL,
+  `actual` DOUBLE(10,2) NULL,
+  `minimo` DOUBLE(10,2) NULL,
+  `maximo` DOUBLE(10,2) NULL,
+  `productoId` INT NULL,
+  `tipoStockId` INT NULL,
+  PRIMARY KEY (`id`));
