@@ -57,11 +57,15 @@ class PrecioServicio implements IPrecioServicio
             $respuesta->errores[] = "Error en el servicio";
         } else {
             $listaT = $resRepo->resultado;
-            $listaMapeada = [];
-            foreach ($listaT as $key) {
-                $listaMapeada[] = $this->_MapearEntidadDto($key);
+            if (count($listaT) > 0) {
+                $listaMapeada = [];
+                foreach ($listaT as $key) {
+                    $listaMapeada[] = $this->_MapearEntidadDto($key);
+                }
+                $respuesta->resultado = $listaMapeada;
+            } else {
+                $respuesta->errores[] = "No hay resultados";
             }
-            $respuesta->resultado = $listaMapeada;
         }
         return $respuesta;
     }
