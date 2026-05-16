@@ -7,7 +7,7 @@ class Stock extends EntidadBase
     public float $_actual;
     public float $_minimo;
     public float $_maximo;
-    public int $_tipoStock;
+    public int $_tipoStockId;
 }
 
 ?>

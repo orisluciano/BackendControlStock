@@ -7,7 +7,7 @@ class StockDTO extends DTOBase
     public float $actual;
     public float $minimo;
     public float $maximo;
-    public int $tipoStock;
+    public int $tipoStockId;
 }
 
 ?>

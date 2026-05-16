@@ -69,7 +69,7 @@ class StockServicio implements IStockServicio
         $dto->minimo = $entidad->_minimo;
         $dto->maximo = $entidad->_maximo;
         $dto->actual = $entidad->_actual;
-        $dto->tipoStock = $entidad->_tipoStock;
+        $dto->tipoStockId = $entidad->_tipoStockId;
         return $dto;
     }
 

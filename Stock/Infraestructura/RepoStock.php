@@ -59,7 +59,7 @@ class RepoStock extends RepoBase implements IRepoStock
         $t->_minimo = $respuestaBase['minimo'];
         $t->_maximo = $respuestaBase['maximo'];
         $t->_actual = $respuestaBase['actual'];
-        $t->_tipoStock = $respuestaBase['tipoStockId'];
+        $t->_tipoStockId = $respuestaBase['tipoStockId'];
         return $t;
     }
 }
