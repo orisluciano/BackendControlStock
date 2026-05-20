@@ -14,7 +14,25 @@ class PrecioServicio implements IPrecioServicio
     }
 
     public function _nuevo(PrecioDTO $precio) : RespuestaServicioDatos{
-        return new RespuestaServicioDatos();
+        if (is_null($precio->productoId)) {
+            $this->_respuesta->errores[] = "El productoId no puede estar vacio";
+        }
+        if (is_null($precio->costo)) {
+            $this->_respuesta->errores[] = "El precio de costo no puede estar vacio";
+        }
+        if (is_null($precio->venta)) {
+            $this->_respuesta->errores[] = "El precio de venta no puede estar vacio";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $nuevo = new Precio();
+            $nuevo->_costo = $precio->costo;
+            $nuevo->_venta = $precio->venta;
+            $nuevo->_productoId = $precio->productoId;
+            $resRepo = $this->_repo->_crear($nuevo);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
+        return $this->_respuesta;
     }
     public function _modificar(PrecioDTO $precio) : RespuestaServicioDatos{return new RespuestaServicioDatos();}
     public function _eliminar(int $id) : RespuestaServicioDatos{return new RespuestaServicioDatos();}

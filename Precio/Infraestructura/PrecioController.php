@@ -80,28 +80,35 @@ class PrecioController implements IApiController
         if (empty($this->_datos)) {
             $respuesta->errores[] = "Faltan todos los datos";
         }else {
-            if (!property_exists($this->_datos, "nombre")) {
-                $respuesta->errores[] = "Falta nombre del producto";
+            if (!property_exists($this->_datos, "costo")) {
+                $respuesta->errores[] = "Falta el costo del precio";
             }else {
-                if ($this->_datos->nombre === null) {
-                    $respuesta->errores[] = "El nombre no puede estar vacio";
+                if (is_null($this->_datos->costo) || $this->_datos->costo === "") {
+                    $respuesta->errores[] = "El precio de costo no puede estar vacio";
                 }
             }
-            if (!property_exists($this->_datos, "descripcion")) {
-                $respuesta->errores[] = "Falta descripcion del producto";
-            }elseif ($this->_datos->descripcion === null) {
-                $respuesta->errores[] = "La descripcion no puede estar vacia";
+            if (!property_exists($this->_datos, "venta")) {
+                $respuesta->errores[] = "Falta el precio de venta del precio";
+            }elseif (is_null($this->_datos->venta) || $this->_datos->venta === "") {
+                $respuesta->errores[] = "El precio de venta no puede estar vacio";
             }
-
-            if (!property_exists($this->_datos, "codSKU")) {
-                $respuesta->errores[] = "Falta codigo";
-            }
-            if (!property_exists($this->_datos, "tipoProductoId")) {
-                $respuesta->errores[] = "Falta tipoProductoId";
+            if (!property_exists($this->_datos, "productoId")) {
+                $respuesta->errores[] = "Falta productoId";
+            }else {
+                if (is_null($this->_datos->productoId) || $this->_datos->productoId === "") {
+                    $respuesta->errores[] = "El productoId del precio no puede estar vacio";
+                }
             }
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $producto = new PrecioDTO();
+            $precio = new PrecioDTO();
+            $precio->costo = (float)$this->_datos->costo;
+            $precio->venta = (float)$this->_datos->venta;
+            $precio->productoId = (int)$this->_datos->productoId;
+            $resServ = $this->_precioServicio->_nuevo($precio);
+            $respuesta->respuesta = $resServ->resultado;
+            $respuesta->errores = $resServ->errores;
+            $respuesta->mensajes = $resServ->mensajes;
             //$producto->id = $this->_datos->id;
             /*$producto->nombre = $this->_datos->nombre;
             $producto->descripcion = $this->_datos->descripcion;
