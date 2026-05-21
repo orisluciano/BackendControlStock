@@ -7,7 +7,24 @@ require_once "./Utiles/Infraestructura/RepoBase.php";
 class RepoStock extends RepoBase implements IRepoStock
 {
     public function _crear(Stock $entidad) : RespuestaRepositorio{
-        return new RespuestaRepositorio;
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al crear stock";
+        } else {
+            try {
+                $consulta = "INSERT INTO stock VALUES (null, curtime(), curtime(), false, 0, :minimo, :maximo, :productoId, :tipoStockId)";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":minimo", $entidad->_minimo);
+                $servicio->bindValue(":maximo", $entidad->_maximo);
+                $servicio->bindValue(":productoId", $entidad->_productoId);
+                $servicio->bindValue(":tipoStockId", $entidad->_tipoStockId);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Creacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
+        return $this->_resRepo;
     }
     public function _modificar(Stock $entidad) : RespuestaRepositorio{
         return new RespuestaRepositorio;

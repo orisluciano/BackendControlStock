@@ -14,7 +14,29 @@ class StockServicio implements IStockServicio
     }
 
     public function _nuevo(StockDTO $stock) : RespuestaServicioDatos{
-        return new RespuestaServicioDatos;
+        if (is_null($stock->productoId)) {
+            $this->_respuesta->errores[] = "El productoId no puede estar vacio";
+        }
+        if (is_null($stock->minimo)) {
+            $this->_respuesta->errores[] = "El minimo de stock no puede estar vacio";
+        }
+        if (is_null($stock->maximo)) {
+            $this->_respuesta->errores[] = "El maximo de stock no puede estar vacio";
+        }
+        if (is_null($stock->tipoStockId)) {
+            $this->_respuesta->errores[] = "El tipo de stock no puede estar vacio";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $nuevo = new Stock();
+            $nuevo->_minimo = $stock->minimo;
+            $nuevo->_maximo = $stock->maximo;
+            $nuevo->_productoId = $stock->productoId;
+            $nuevo->_tipoStockId = $stock->tipoStockId;
+            $resRepo = $this->_repo->_crear($nuevo);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
+        return $this->_respuesta;
     }
     public function _modificar(StockDTO $stock) : RespuestaServicioDatos{
         return new RespuestaServicioDatos;
