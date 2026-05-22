@@ -27,7 +27,27 @@ class RepoStock extends RepoBase implements IRepoStock
         return $this->_resRepo;
     }
     public function _modificar(Stock $entidad) : RespuestaRepositorio{
-        return new RespuestaRepositorio;
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al crear stock";
+        } else {
+            try {
+                $consulta = "UPDATE stock SET 
+                fechaMod = curtime(), actual = :actual, minimo = :minimo, maximo = :maximo, tipoStockId = :tipoStockId
+                WHERE id = :id";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":actual", $entidad->_actual);
+                $servicio->bindValue(":minimo", $entidad->_minimo);
+                $servicio->bindValue(":maximo", $entidad->_maximo);
+                $servicio->bindValue(":tipoStockId", $entidad->_tipoStockId);
+                $servicio->bindValue(":id", $entidad->_id);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Modiicacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
+        return $this->_resRepo;
     }
     public function _eliminar(int $id) : RespuestaRepositorio{
         return new RespuestaRepositorio;

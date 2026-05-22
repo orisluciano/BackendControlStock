@@ -106,27 +106,31 @@ class StockController implements IApiController
             if (!property_exists($this->_datos, "id" )|| $this->_datos->id === null) {
                 $respuesta->errores[] = "Falta id";
             }
-            if (!property_exists($this->_datos, "nombre") || $this->_datos->nombre === null) {
-                $respuesta->errores[] = "Falta nombre del producto";
+            if (!property_exists($this->_datos, "actual") || $this->_datos->actual === null) {
+                $respuesta->errores[] = "Falta actual";
             }
-            if (!property_exists($this->_datos, "descripcion") || $this->_datos->descripcion === null) {
-                $respuesta->errores[] = "Falta descripcion del producto";
+            if (!property_exists($this->_datos, "minimo") || $this->_datos->minimo === null) {
+                $respuesta->errores[] = "Falta minimo del stock";
             }
-            if (!property_exists($this->_datos, "codSKU")) {
-                $respuesta->errores[] = "Falta codigo";
+            if (!property_exists($this->_datos, "maximo") || $this->_datos->maximo === null) {
+                $respuesta->errores[] = "Falta maximo del stock";
             }
-            if (!property_exists($this->_datos, "tipoProductoId")) {
-                $respuesta->errores[] = "Falta tipoProductoId";
+            if (!property_exists($this->_datos, "tipoStockId") || $this->_datos->tipoStockId === null) {
+                $respuesta->errores[] = "Falta tipoStockId";
+            }
+            if (!property_exists($this->_datos, "productoId") || $this->_datos->productoId === null) {
+                $respuesta->errores[] = "Falta productoId";
             }
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $producto = new ProductoDTO();
-            $producto->id = $this->_datos->id;
-            $producto->nombre = $this->_datos->nombre;
-            $producto->descripcion = $this->_datos->descripcion;
-            $producto->codSKU = $this->_datos->codSKU;
-            $producto->tipoProdId = (int)$this->_datos->tipoProductoId;
-            $resServ = $this->_prodServicio->_modificar($producto);
+            $stock = new StockDTO();
+            $stock->id = (int)$this->_datos->id;
+            $stock->actual = (float)$this->_datos->actual;
+            $stock->minimo = (float)$this->_datos->minimo;
+            $stock->maximo = (float)$this->_datos->maximo;
+            $stock->tipoStockId = (int)$this->_datos->tipoStockId;
+            $stock->productoId = (int)$this->_datos->productoId;
+            $resServ = $this->_stockServicio->_modificar($stock);
             $respuesta->respuesta = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
             $respuesta->mensajes = $resServ->mensajes;

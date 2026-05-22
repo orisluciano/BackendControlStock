@@ -39,7 +39,37 @@ class StockServicio implements IStockServicio
         return $this->_respuesta;
     }
     public function _modificar(StockDTO $stock) : RespuestaServicioDatos{
-        return new RespuestaServicioDatos;
+        if (is_null($stock->productoId)) {
+            $this->_respuesta->errores[] = "El productoId no puede estar vacio";
+        }
+        if (is_null($stock->minimo)) {
+            $this->_respuesta->errores[] = "El minimo de stock no puede estar vacio";
+        }
+        if (is_null($stock->maximo)) {
+            $this->_respuesta->errores[] = "El maximo de stock no puede estar vacio";
+        }
+        if (is_null($stock->tipoStockId)) {
+            $this->_respuesta->errores[] = "El tipo de stock no puede estar vacio";
+        }
+        if (is_null($stock->id)) {
+            $this->_respuesta->errores[] = "El id de stock no puede estar vacio";
+        }
+        if (is_null($stock->actual)) {
+            $this->_respuesta->errores[] = "El actual de stock no puede estar vacio";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $nuevo = new Stock();
+            $nuevo->_id = $stock->id;
+            $nuevo->_actual = $stock->actual;
+            $nuevo->_minimo = $stock->minimo;
+            $nuevo->_maximo = $stock->maximo;
+            $nuevo->_productoId = $stock->productoId;
+            $nuevo->_tipoStockId = $stock->tipoStockId;
+            $resRepo = $this->_repo->_modificar($nuevo);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
+        return $this->_respuesta;
     }
     public function _eliminar(int $id) : RespuestaServicioDatos{
         return new RespuestaServicioDatos;
