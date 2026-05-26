@@ -171,8 +171,8 @@ class StockController implements IApiController
             if (count($tipoStock->errores) > 0) {
                 $respuesta->errores[] = "Hubo un error al buscar el tipo de stock";
             } else {
-                $respuesta->respuesta['stock'] = $stock->resultado;
-                $respuesta->respuesta['tipoStock'] = $tipoStock->resultado;
+                $respuesta->respuesta['stock'] = $stock->resultado[0];
+                $respuesta->respuesta['tipoStock'] = $tipoStock->resultado[0];
                 $respuesta->mensajes = $stock->mensajes;
                 $respuesta->errores = $stock->errores;
             }
