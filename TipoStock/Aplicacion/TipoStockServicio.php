@@ -23,6 +23,22 @@ class TipoStockServicio  implements ITipoStockServicio
         return $this->_respuesta;
     }
     public function _getById(int $id) : RespuestaServicioDatos{
+        $resRepo = $this->_repo->_getById($id);
+        if ($this->_checkErrores($resRepo->errores)) {
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->errores[] = "Error en el servicio";
+        } else {
+            $listaT = $resRepo->resultado;
+            if (count($listaT) > 0) {
+                $listaMapeada = [];
+                foreach ($listaT as $key) {
+                    $listaMapeada[] = $this->_MapearEntidadDto($key);
+                }
+                $this->_respuesta->resultado = $listaMapeada;
+            } else {
+                $this->_respuesta->errores[] = "No hay resultados";
+            }
+        }
         return $this->_respuesta;
     }
     public function _getTodo() : RespuestaServicioDatos{

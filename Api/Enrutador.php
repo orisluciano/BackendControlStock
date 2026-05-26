@@ -43,7 +43,7 @@ class Enrutador
                 $precioController->_ejecutar();
                 break;
             case $this->rutas->stock:
-                $stockController = new StockController($this->metodo, $this->datos, $rutaResuelta['parametros'], $this->inyeccion->_getStockServicio());
+                $stockController = new StockController($this->metodo, $this->datos, $rutaResuelta['parametros'], $this->inyeccion->_getStockServicio(), $this->inyeccion->_getTipoStockServicio());
                 $stockController->_ejecutar();
                 break;
             case $this->rutas->tipoStock:

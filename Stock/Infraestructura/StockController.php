@@ -15,8 +15,9 @@ class StockController implements IApiController
     protected Acciones $_acciones;
     protected Mensajes $_mensajes;
     protected IStockServicio $_stockServicio;
+    protected ITipoStockServicio $_tipoStockServicio;
 
-    public function __construct($metodo, $datos, $parametros, IStockServicio $_stockServicio){
+    public function __construct($metodo, $datos, $parametros, IStockServicio $_stockServicio, ITipoStockServicio $_tipoStockServicio){
         $this->_metodos = new HttpMethods();
         $this->_acciones = new Acciones();
         $this->_mensajes = new Mensajes();
@@ -24,6 +25,7 @@ class StockController implements IApiController
         $this->_datos = $datos;
         $this->_parametros = $parametros;
         $this->_stockServicio = $_stockServicio;
+        $this->_tipoStockServicio = $_tipoStockServicio;
     }
 
     public function _ejecutar(){
@@ -164,11 +166,16 @@ class StockController implements IApiController
         $stock = $this->_stockServicio->_getStockByProductoId($this->_parametros[0]);
         if (count($stock->errores) > 0) {
             $respuesta->errores = $stock->errores;
-            $respuesta->errores[] = "Hubo un error";
         } else {
-            $respuesta->respuesta = $stock->resultado;
-            $respuesta->mensajes = $stock->mensajes;
-            $respuesta->errores = $stock->errores;
+            $tipoStock = $this->_tipoStockServicio->_getById($stock->resultado[0]->tipoStockId);
+            if (count($tipoStock->errores) > 0) {
+                $respuesta->errores[] = "Hubo un error al buscar el tipo de stock";
+            } else {
+                $respuesta->respuesta['stock'] = $stock->resultado;
+                $respuesta->respuesta['tipoStock'] = $tipoStock->resultado;
+                $respuesta->mensajes = $stock->mensajes;
+                $respuesta->errores = $stock->errores;
+            }
         }
         return $respuesta;
     }
