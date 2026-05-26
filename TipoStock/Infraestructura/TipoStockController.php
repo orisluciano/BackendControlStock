@@ -49,20 +49,22 @@ class TipoStockController implements IApiController
         $respuesta = new RespuestaPeticion();
         if ($this->_parametros != null) {
             if (count($this->_parametros) > 1) {
-                switch ($this->_parametros) {
+                /*switch ($this->_parametros) {
                     case is_numeric($this->_parametros[0]):
                         $respuesta = $this->_getStock();
                         break;
                     default:
                         $respuesta->errores[] = "No coincide ningun parametro";
                         break;
-                }
+                }*/
+                $respuesta->mensajes[] = "Proximamente";
             } else {
-                $respuesta = $this->_getStockByProductoId();
+                //$respuesta = $this->_getStockByProductoId();
+                $respuesta->mensajes[] = "Proximamente";
             }
             
         } else {
-            $respuesta->errores[] = "No se proporciono ningun parametro";
+            $respuesta = $this->_getTipoStock();
         }
         return $respuesta;
     }
@@ -155,20 +157,15 @@ class TipoStockController implements IApiController
         return $respuesta;
     }
 
-    protected function _getStock() : RespuestaPeticion {
-        return new RespuestaPeticion();
-    }
-
-    protected function _getStockByProductoId() : RespuestaPeticion{
+    protected function _getTipoStock() : RespuestaPeticion {
         $respuesta = new RespuestaPeticion();
-        $stock = $this->_stockServicio->_getStockByProductoId($this->_parametros[0]);
-        if (count($stock->errores) > 0) {
-            $respuesta->errores = $stock->errores;
-            $respuesta->errores[] = "Hubo un error";
+        $tipos = $this->_tipoStockServicio->_getTodo();
+        if (count($tipos->errores) > 0) {
+            $respuesta->errores = $tipos->errores;;
         } else {
-            $respuesta->respuesta = $stock->resultado;
-            $respuesta->mensajes = $stock->mensajes;
-            $respuesta->errores = $stock->errores;
+            $respuesta->respuesta = $tipos->resultado;
+            $respuesta->mensajes = $tipos->mensajes;
+            $respuesta->errores = $tipos->errores;
         }
         return $respuesta;
     }

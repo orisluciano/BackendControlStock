@@ -21,3 +21,11 @@ CREATE TABLE `controlstockdb`.`precios` (
   `productoId` INT NULL,
   `tipoStockId` INT NULL,
   PRIMARY KEY (`id`));
+
+CREATE TABLE `controlstockdb`.`tipostock` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fechaCreacion` DATETIME NULL,
+  `fechaMod` DATETIME NULL,
+  `borrado` TINYINT NULL,
+  `descripcion` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
