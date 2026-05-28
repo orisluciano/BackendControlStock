@@ -7,6 +7,8 @@ require_once "./Stock/Aplicacion/StockServicio.php";
 require_once "./Stock/Infraestructura/RepoStock.php";
 require_once "./TipoStock/Aplicacion/TipoStockServicio.php";
 require_once "./TipoStock/Infraestructura/RepoTipoStock.php";
+require_once "./MovimientoStock/Aplicacion/MovimientoStockServicio.php";
+require_once "./MovimientoStock/Infraestructura/RepoMovimientoStock.php";
 
 class InyeccionServicios
 {
@@ -14,6 +16,7 @@ class InyeccionServicios
     protected PrecioServicio $_precioServicio;
     protected StockServicio $_stockServicio;
     protected TipoStockServicio $_tipoStockServicio;
+    protected MovimientoStockServicio $_movStockServicio;
 
     public function __construct() {
         $this->iniciarServicios();
@@ -25,6 +28,7 @@ class InyeccionServicios
         $this->_precioServicio = new PrecioServicio(new RepoPrecio());
         $this->_stockServicio = new StockServicio(new RepoStock());
         $this->_tipoStockServicio = new TipoStockServicio(new RepoTipoStock());
+        $this->_movStockServicio = new MovimientoStockServicio(new RepoMovimientoStock());
     }
 
     public function _getProductoServicio() : ProductoServicio {
@@ -41,6 +45,10 @@ class InyeccionServicios
 
     public function _getTipoStockServicio() : TipoStockServicio {
         return $this->_tipoStockServicio;
+    }
+
+    public function _getMovStockServicio() : MovimientoStockServicio {
+        return $this->_movStockServicio;
     }
 }
 

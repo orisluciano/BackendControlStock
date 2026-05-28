@@ -9,7 +9,7 @@ class Rutas
     public string $stock = "stock";
     public string $tipoStock = "tipostock";
     public string $precio = "precio";
-    public string $movimiento = "movimiento";
+    public string $movimientoStock = "movimientoStock";
     public string $tipoMovimiento = "tipoMovimiento";
 }
 ?>
