@@ -7,6 +7,22 @@ require_once "./Utiles/Infraestructura/RepoBase.php";
 class RepoMovimientoStock extends RepoBase implements IRepoMovimientoStock
 {
     public function _nuevo(MovimientoStock $movStock) : RespuestaRepositorio{
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al crear movimiento";
+        } else {
+            try {
+                $consulta = "INSERT INTO movimientostock values (null, curtime(), curtime(), false, :costo, :venta, :productoId)";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":costo", $precio->_costo);
+                $servicio->bindValue(":venta", $precio->_venta);
+                $servicio->bindValue(":productoId", $precio->_productoId);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Creacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
         return $this->_resRepo;
     }
     public function _modificar(MovimientoStock $movStock) : RespuestaRepositorio{
