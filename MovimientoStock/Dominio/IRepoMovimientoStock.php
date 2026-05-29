@@ -5,5 +5,6 @@ interface IRepoMovimientoStock {
     public function _eliminar(int $id) : RespuestaRepositorio;
     public function _getById(int $id) : RespuestaRepositorio;
     public function _getTodo() : RespuestaRepositorio;
+    public function _getMovsById(int $id) : RespuestaRepositorio;
 }
 ?>

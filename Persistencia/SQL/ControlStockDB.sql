@@ -29,3 +29,16 @@ CREATE TABLE `controlstockdb`.`tipostock` (
   `borrado` TINYINT NULL,
   `descripcion` VARCHAR(45) NULL,
   PRIMARY KEY (`id`));
+
+  CREATE TABLE `controlstockdb`.`movimientostock` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fechaCreacion` DATETIME NULL,
+  `fechaMod` DATETIME NULL,
+  `borrado` TINYINT NULL,
+  `stockId` INT NOT NULL,
+  `cantidad` DOUBLE(10,2) NULL,
+  `tipoMovId` INT NULL,
+  `motivoMovId` INT NULL,
+  PRIMARY KEY (`id`));
+
+  

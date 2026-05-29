@@ -48,7 +48,7 @@ class MovimientoStockController implements IApiController
     public function _get(){
         $respuesta = new RespuestaPeticion();
         if ($this->_parametros != null) {
-            if (count($this->_parametros) > 1) {
+            if (count($this->_parametros) >= 1) {
                 switch ($this->_parametros) {
                     case is_numeric($this->_parametros[0]):
                         $respuesta = $this->_movStockById();
@@ -57,7 +57,6 @@ class MovimientoStockController implements IApiController
                         $respuesta->errores[] = "No coincide ningun parametro";
                         break;
                 }
-                $respuesta->mensajes[] = "Proximamente";
             } else {
                 //$respuesta = $this->_getStockByProductoId();
                 $respuesta->mensajes[] = "Proximamente";
@@ -159,7 +158,7 @@ class MovimientoStockController implements IApiController
 
     protected function _movStockById() : RespuestaPeticion {
         $respuesta = new RespuestaPeticion();
-        $tipos = $this->_movStockServicio->_getById($this->_parametros[0]);
+        $tipos = $this->_movStockServicio->_getMovsById($this->_parametros[0]);
         if (count($tipos->errores) > 0) {
             $respuesta->errores = $tipos->errores;;
         } else {
@@ -170,9 +169,9 @@ class MovimientoStockController implements IApiController
         return $respuesta;
     }
 
-    protected function _getTipoStock() : RespuestaPeticion {
+    protected function _getTodoMovStock() : RespuestaPeticion {
         $respuesta = new RespuestaPeticion();
-        $tipos = $this->_tipoStockServicio->_getTodo();
+        $tipos = $this->_movStockServicio->_getTodo();
         if (count($tipos->errores) > 0) {
             $respuesta->errores = $tipos->errores;;
         } else {

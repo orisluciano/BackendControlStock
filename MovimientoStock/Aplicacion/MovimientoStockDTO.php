@@ -6,6 +6,6 @@ class MovimientoStockDTO extends DTOBase
     public int $stockId;
     public float $cantidad;
     public int $tipoMovimientoId;
-    public int $causaId;
+    public int $motivoMovId;
 }
 ?>
