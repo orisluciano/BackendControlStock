@@ -86,12 +86,12 @@ class MovimientoStockController implements IApiController
             }
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $stock = new StockDTO();
-            $stock->minimo = (float)$this->_datos->minimo;
-            $stock->maximo = (float)$this->_datos->maximo;
-            $stock->tipoStockId = (int)$this->_datos->tipoStockId;
-            $stock->productoId = (int)$this->_datos->productoId;
-            $resServ = $this->_stockServicio->_nuevo($stock);
+            $movStock = new MovimientoStockDTO();
+            $movStock->stockId = (int)$this->_datos->stockId;
+            $movStock->cantidad = (float)$this->_datos->cantidad;
+            $movStock->tipoMovimientoId = (int)$this->_datos->tipoMovimientoId;
+            $movStock->motivoMovId = (int)$this->_datos->motivoMovId;
+            $resServ = $this->_movStockServicio->_nuevo($movStock);
             $respuesta->respuesta = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
             $respuesta->mensajes = $resServ->mensajes;

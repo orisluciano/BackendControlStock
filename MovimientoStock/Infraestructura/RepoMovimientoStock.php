@@ -12,11 +12,22 @@ class RepoMovimientoStock extends RepoBase implements IRepoMovimientoStock
             $this->_resRepo->errores[] = "Error al crear movimiento";
         } else {
             try {
-                $consulta = "INSERT INTO movimientostock values (null, curtime(), curtime(), false, :costo, :venta, :productoId)";
+                $consulta = "";
+                $principio = "START TRANSACTION;
+                INSERT INTO movimientostock VALUES (null, curtime(), curtime(), 0, :stockId, :cantidad, :tipoMovId, :motivoMovId);
+                UPDATE stock SET actual = stock.actual";
+                $final = ":cantidad, fechaMod = curtime() WHERE id = :stockId;
+                COMMIT;";
+                if ($movStock->_tipoMovimientoId === 1) {
+                    $consulta = $principio . " + " . $final;
+                }else{
+                    $consulta = $principio . " - " . $final;
+                }
                 $servicio = $res->conexion->prepare($consulta);
-                $servicio->bindValue(":costo", $precio->_costo);
-                $servicio->bindValue(":venta", $precio->_venta);
-                $servicio->bindValue(":productoId", $precio->_productoId);
+                $servicio->bindValue(":stockId", $movStock->_stockId);
+                $servicio->bindValue(":cantidad", $movStock->_cantidad);
+                $servicio->bindValue(":tipoMovId", $movStock->_tipoMovimientoId);
+                $servicio->bindValue(":motivoMovId", $movStock->_motivoMovId);
                 $servicio->execute();
                 $this->_resRepo->mensajes[] = "Creacion exitosa";
             } catch (Throwable $th) {

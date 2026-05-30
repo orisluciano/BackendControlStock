@@ -14,6 +14,28 @@ class MovimientoStockServicio  implements IMovimientoStockServicio
     }
 
     public function _nuevo(MovimientoStockDTO $movStock) : RespuestaServicioDatos{
+        if (is_null($movStock->stockId)) {
+            $this->_respuesta->errores[] = "El stockId no puede estar vacio";
+        }
+        if (is_null($movStock->cantidad)) {
+            $this->_respuesta->errores[] = "La cantidad no puede estar vacia";
+        }
+        if (is_null($movStock->tipoMovimientoId)) {
+            $this->_respuesta->errores[] = "El tipoMovimientoId no puede estar vacio";
+        }
+        if (is_null($movStock->motivoMovId)) {
+            $this->_respuesta->errores[] = "El motivoMovId no puede estar vacio";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $nuevo = new MovimientoStock();
+            $nuevo->_stockId = $movStock->stockId;
+            $nuevo->_cantidad = $movStock->cantidad;
+            $nuevo->_tipoMovimientoId = $movStock->tipoMovimientoId;
+            $nuevo->_motivoMovId = $movStock->motivoMovId;
+            $resRepo = $this->_repo->_nuevo($nuevo);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
     public function _modificar(MovimientoStockDTO $movStock) : RespuestaServicioDatos{
