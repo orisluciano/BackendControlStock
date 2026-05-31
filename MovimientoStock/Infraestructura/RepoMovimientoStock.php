@@ -89,12 +89,13 @@ class RepoMovimientoStock extends RepoBase implements IRepoMovimientoStock
         return $this->_resRepo;
     }
 
-    public function _getMovsById(int $id) : RespuestaRepositorio {
+    public function _getMovsById(int $id, string $desde, string $hasta) : RespuestaRepositorio {
         $res = $this->_conn->connect();
         if ($this->_checkErrores($res->errores)) {
             $this->_resRepo->errores[] = "Error al solicitar lista de tipos de stock";
         } else {
-            $Consulta = "SELECT * FROM movimientostock WHERE stockId = " . $id . " order by id desc";
+            $Consulta = "SELECT * FROM movimientostock
+            WHERE fechaMod >= '" . $desde . "' AND fechaMod <= '" . $hasta . "' AND stockId = " . $id . " order by id desc";
             $sql = $res->conexion->prepare($Consulta);
             try {
                 $sql->execute();

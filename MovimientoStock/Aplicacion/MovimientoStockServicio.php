@@ -83,8 +83,8 @@ class MovimientoStockServicio  implements IMovimientoStockServicio
         return $this->_respuesta;
     }
 
-    public function _getMovsById(int $id) : RespuestaServicioDatos {
-        $resRepo = $this->_repo->_getMovsById($id);
+    public function _getMovsById(int $id, string $desde, string $hasta) : RespuestaServicioDatos {
+        $resRepo = $this->_repo->_getMovsById($id, $desde, $hasta);
         if ($this->_checkErrores($resRepo->errores)) {
             $this->_respuesta->errores = $resRepo->errores;
             $this->_respuesta->errores[] = "Error en el servicio";

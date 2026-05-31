@@ -50,7 +50,10 @@ class MovimientoStockController implements IApiController
         if ($this->_parametros != null) {
             if (count($this->_parametros) >= 1) {
                 switch ($this->_parametros) {
-                    case is_numeric($this->_parametros[0]):
+                    case is_numeric($this->_parametros[0]) && count($this->_parametros) === 1:
+                        $respuesta = $this->_movStockById();
+                        break;
+                    case count($this->_parametros) === 3:
                         $respuesta = $this->_movStockById();
                         break;
                     default:
@@ -158,7 +161,7 @@ class MovimientoStockController implements IApiController
 
     protected function _movStockById() : RespuestaPeticion {
         $respuesta = new RespuestaPeticion();
-        $tipos = $this->_movStockServicio->_getMovsById($this->_parametros[0]);
+        $tipos = $this->_movStockServicio->_getMovsById($this->_parametros[0], $this->_parametros[1], $this->_parametros[2]);
         if (count($tipos->errores) > 0) {
             $respuesta->errores = $tipos->errores;;
         } else {
