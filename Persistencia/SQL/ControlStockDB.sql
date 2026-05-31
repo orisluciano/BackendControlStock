@@ -41,4 +41,10 @@ CREATE TABLE `controlstockdb`.`tipostock` (
   `motivoMovId` INT NULL,
   PRIMARY KEY (`id`));
 
+  CREATE TABLE `controlstockdb`.`tipomovimiento` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` ENUM("Alta", "Baja") NOT NULL,
+  PRIMARY KEY (`id`));
+
+
   
