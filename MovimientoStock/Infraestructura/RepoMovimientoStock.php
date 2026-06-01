@@ -14,11 +14,11 @@ class RepoMovimientoStock extends RepoBase implements IRepoMovimientoStock
             try {
                 $consulta = "";
                 $principio = "START TRANSACTION;
-                INSERT INTO movimientostock VALUES (null, curtime(), curtime(), 0, :stockId, :cantidad, :tipoMovId, :motivoMovId);
+                INSERT INTO movimientostock VALUES (null, curtime(), curtime(), 0, :stockId, :cantidad, :tipo, :motivoMovId);
                 UPDATE stock SET actual = stock.actual";
                 $final = ":cantidad, fechaMod = curtime() WHERE id = :stockId;
                 COMMIT;";
-                if ($movStock->_tipoMovimientoId === 1) {
+                if ($movStock->_tipo === "Entrada") {
                     $consulta = $principio . " + " . $final;
                 }else{
                     $consulta = $principio . " - " . $final;
@@ -26,7 +26,7 @@ class RepoMovimientoStock extends RepoBase implements IRepoMovimientoStock
                 $servicio = $res->conexion->prepare($consulta);
                 $servicio->bindValue(":stockId", $movStock->_stockId);
                 $servicio->bindValue(":cantidad", $movStock->_cantidad);
-                $servicio->bindValue(":tipoMovId", $movStock->_tipoMovimientoId);
+                $servicio->bindValue(":tipo", $movStock->_tipo);
                 $servicio->bindValue(":motivoMovId", $movStock->_motivoMovId);
                 $servicio->execute();
                 $this->_resRepo->mensajes[] = "Creacion exitosa";
@@ -122,7 +122,7 @@ class RepoMovimientoStock extends RepoBase implements IRepoMovimientoStock
         $t->_fechaModif = $respuestaBase['fechaMod'];
         $t->_stockId = $respuestaBase['stockId'];
         $t->_cantidad = $respuestaBase['cantidad'];
-        $t->_tipoMovimientoId = $respuestaBase['tipoMovId'];
+        $t->_tipo = $respuestaBase['tipo'];
         $t->_motivoMovId = $respuestaBase['motivoMovId'];
         return $t;
     }

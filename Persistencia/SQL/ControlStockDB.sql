@@ -37,13 +37,17 @@ CREATE TABLE `controlstockdb`.`tipostock` (
   `borrado` TINYINT NULL,
   `stockId` INT NOT NULL,
   `cantidad` DOUBLE(10,2) NULL,
-  `tipoMovId` INT NULL,
+  `tipo` ENUM("Entrada", "Salida"),
   `motivoMovId` INT NULL,
   PRIMARY KEY (`id`));
 
-  CREATE TABLE `controlstockdb`.`tipomovimiento` (
+CREATE TABLE `controlstockdb`.`motivomovimiento` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `descripcion` ENUM("Alta", "Baja") NOT NULL,
+  `fechaCreacion` DATETIME NOT NULL,
+  `fechaMod` DATETIME NOT NULL,
+  `borrado` TINYINT NOT NULL,
+  `tipo` ENUM("Entrada", "Salida") NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`));
 
 

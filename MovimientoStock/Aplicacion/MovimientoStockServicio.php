@@ -20,8 +20,8 @@ class MovimientoStockServicio  implements IMovimientoStockServicio
         if (is_null($movStock->cantidad)) {
             $this->_respuesta->errores[] = "La cantidad no puede estar vacia";
         }
-        if (is_null($movStock->tipoMovimientoId)) {
-            $this->_respuesta->errores[] = "El tipoMovimientoId no puede estar vacio";
+        if (is_null($movStock->tipo)) {
+            $this->_respuesta->errores[] = "El tipo no puede estar vacio";
         }
         if (is_null($movStock->motivoMovId)) {
             $this->_respuesta->errores[] = "El motivoMovId no puede estar vacio";
@@ -30,7 +30,7 @@ class MovimientoStockServicio  implements IMovimientoStockServicio
             $nuevo = new MovimientoStock();
             $nuevo->_stockId = $movStock->stockId;
             $nuevo->_cantidad = $movStock->cantidad;
-            $nuevo->_tipoMovimientoId = $movStock->tipoMovimientoId;
+            $nuevo->_tipo = $movStock->tipo;
             $nuevo->_motivoMovId = $movStock->motivoMovId;
             $resRepo = $this->_repo->_nuevo($nuevo);
             $this->_respuesta->errores = $resRepo->errores;
@@ -110,7 +110,7 @@ class MovimientoStockServicio  implements IMovimientoStockServicio
         $dto->fechaModif = $entidad->_fechaModif;
         $dto->stockId = $entidad->_stockId;
         $dto->cantidad = $entidad->_cantidad;
-        $dto->tipoMovimientoId = $entidad->_tipoMovimientoId;
+        $dto->tipo = $entidad->_tipo;
         $dto->motivoMovId = $entidad->_motivoMovId;
         return $dto;
     }

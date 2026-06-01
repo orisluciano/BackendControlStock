@@ -92,7 +92,7 @@ class MovimientoStockController implements IApiController
             $movStock = new MovimientoStockDTO();
             $movStock->stockId = (int)$this->_datos->stockId;
             $movStock->cantidad = (float)$this->_datos->cantidad;
-            $movStock->tipoMovimientoId = (int)$this->_datos->tipoMovimientoId;
+            $movStock->tipo = (int)$this->_datos->tipo;
             $movStock->motivoMovId = (int)$this->_datos->motivoMovId;
             $resServ = $this->_movStockServicio->_nuevo($movStock);
             $respuesta->respuesta = $resServ->resultado;

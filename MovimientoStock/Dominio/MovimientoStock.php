@@ -5,7 +5,7 @@ class MovimientoStock extends EntidadBase
 {
     public int $_stockId;
     public float $_cantidad;
-    public int $_tipoMovimientoId;
+    public string $_tipo;
     public int $_motivoMovId;
 }
 
