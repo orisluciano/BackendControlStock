@@ -75,24 +75,24 @@ class MovimientoStockController implements IApiController
         if (empty($this->_datos)) {
             $respuesta->errores[] = "Faltan todos los datos";
         }else {
-            if (!property_exists($this->_datos, "minimo") || $this->_datos->minimo === "") {
-                $respuesta->errores[] = "Falta minimo del stock";
+            if (!property_exists($this->_datos, "stockId") || $this->_datos->stockId === "") {
+                $respuesta->errores[] = "Falta stockId";
             }
-            if (!property_exists($this->_datos, "maximo") || $this->_datos->maximo === "") {
-                $respuesta->errores[] = "Falta maximo del stock";
+            if (!property_exists($this->_datos, "cantidad") || $this->_datos->cantidad === "") {
+                $respuesta->errores[] = "Falta cantidad del movimiento";
             }
-            if (!property_exists($this->_datos, "tipoStockId") || $this->_datos->tipoStockId === "") {
-                $respuesta->errores[] = "Falta tipoStockId";
+            if (!property_exists($this->_datos, "tipo") || $this->_datos->tipo === "") {
+                $respuesta->errores[] = "Falta tipo de movimiento";
             }
-            if (!property_exists($this->_datos, "productoId") || $this->_datos->productoId === "") {
-                $respuesta->errores[] = "Falta productoId";
+            if (!property_exists($this->_datos, "motivoMovId") || $this->_datos->motivoMovId === "") {
+                $respuesta->errores[] = "Falta motivoMovId";
             }
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
             $movStock = new MovimientoStockDTO();
             $movStock->stockId = (int)$this->_datos->stockId;
             $movStock->cantidad = (float)$this->_datos->cantidad;
-            $movStock->tipo = (int)$this->_datos->tipo;
+            $movStock->tipo = (string)$this->_datos->tipo;
             $movStock->motivoMovId = (int)$this->_datos->motivoMovId;
             $resServ = $this->_movStockServicio->_nuevo($movStock);
             $respuesta->respuesta = $resServ->resultado;
