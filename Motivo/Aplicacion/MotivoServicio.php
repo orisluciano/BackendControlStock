@@ -1,5 +1,6 @@
 <?php
 require_once "./Motivo/Aplicacion/IMotivoServicio.php";
+require_once "./Motivo/Aplicacion/MotivoDTO.php";
 
 class MotivoServicio implements IMotivoServicio
 {

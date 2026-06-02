@@ -48,11 +48,8 @@ class RepoMotivo extends RepoBase implements IRepoMotivo
         $t->_borrado = $respuestaBase['borrado'];
         $t->_fechaCreacion = $respuestaBase['fechaCreacion'];
         $t->_fechaModif = $respuestaBase['fechaMod'];
-        $t->_productoId = $respuestaBase['productoId'];
-        $t->_minimo = $respuestaBase['minimo'];
-        $t->_maximo = $respuestaBase['maximo'];
-        $t->_actual = $respuestaBase['actual'];
-        $t->_tipoStockId = $respuestaBase['tipoStockId'];
+        $t->_descripcion = $respuestaBase['descripcion'];
+        $t->_tipo = $respuestaBase['tipo'];
         return $t;
     }
 }
