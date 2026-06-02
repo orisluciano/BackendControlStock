@@ -51,18 +51,17 @@ class MotivoController implements IApiController
             if (count($this->_parametros) > 1) {
                 switch ($this->_parametros) {
                     case is_numeric($this->_parametros[0]):
-                        $respuesta = $this->_getStock();
+                        $respuesta = $this->_getMotivoById();
                         break;
                     default:
                         $respuesta->errores[] = "No coincide ningun parametro";
                         break;
                 }
-            } else {
-                $respuesta = $this->_getStockByProductoId();
+            }else{
+                $respuesta->errores[] = "No coincide ningun parametro";
             }
-            
         } else {
-            $respuesta->errores[] = "No se proporciono ningun parametro";
+            $respuesta = $this->_getMotivos();
         }
         return $respuesta;
     }
@@ -155,13 +154,22 @@ class MotivoController implements IApiController
         return $respuesta;
     }
 
-    protected function _getStock() : RespuestaPeticion {
-        return new RespuestaPeticion();
+    protected function _getMotivos() : RespuestaPeticion {
+        $respuesta = new RespuestaPeticion();
+        $motivos = $this->_motivoServicio->_getTodo();
+        if (count($motivos->errores) > 0) {
+            $respuesta->errores = $motivos->errores;
+        }else{
+            $respuesta->respuesta = $motivos->resultado;
+            $respuesta->mensajes = $motivos->mensajes;
+            $respuesta->errores = $motivos->errores;
+        }
+        return $respuesta;
     }
 
-    protected function _getStockByProductoId() : RespuestaPeticion{
+    protected function _getMotivoById() : RespuestaPeticion{
         $respuesta = new RespuestaPeticion();
-        $stock = $this->_stockServicio->_getStockByProductoId($this->_parametros[0]);
+        /*$stock = $this->_stockServicio->_getStockByProductoId($this->_parametros[0]);
         if (count($stock->errores) > 0) {
             $respuesta->errores = $stock->errores;
         } else {
@@ -174,7 +182,7 @@ class MotivoController implements IApiController
                 $respuesta->mensajes = $stock->mensajes;
                 $respuesta->errores = $stock->errores;
             }
-        }
+        }*/
         return $respuesta;
     }
 }
