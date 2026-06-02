@@ -23,7 +23,7 @@ class RepoMotivo extends RepoBase implements IRepoMotivo
         if ($this->_checkErrores($res->errores)) {
             $this->_resRepo->errores[] = "Error al solicitar lista de tipos de stock";
         } else {
-            $Consulta = "SELECT * FROM motivo_movimiento WHERE borrado = false";
+            $Consulta = "SELECT * FROM motivomovimiento WHERE borrado = false";
             $sql = $res->conexion->prepare($Consulta);
             try {
                 $sql->execute();
