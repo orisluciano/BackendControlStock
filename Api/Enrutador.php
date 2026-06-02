@@ -6,6 +6,7 @@ require_once "./Precio/Infraestructura/PrecioController.php";
 require_once "./Stock/Infraestructura/StockController.php";
 require_once "./TipoStock/Infraestructura/TipoStockController.php";
 require_once "./MovimientoStock/Infraestructura/MovimientoStockController.php";
+require_once "./Motivo/Infraestructura/MotivoController.php";
 
 class Enrutador
 {
@@ -54,6 +55,10 @@ class Enrutador
             case $this->rutas->movimientoStock:
                 $movStockController = new MovimientoStockController($this->metodo, $this->datos, $rutaResuelta['parametros'], $this->inyeccion->_getMovStockServicio());
                 $movStockController->_ejecutar();
+                break;
+            case $this->rutas->motivoMovimiento:
+                $motivoController = new MotivoController($this->metodo, $this->datos, $rutaResuelta['parametros'], $this->inyeccion->_getMotivoServicio());
+                $motivoController->_ejecutar();
                 break;
             default:
                 $respuesta = new RespuestaPeticion();
