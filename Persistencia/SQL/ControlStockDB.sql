@@ -50,5 +50,14 @@ CREATE TABLE `controlstockdb`.`motivomovimiento` (
   `descripcion` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`));
 
+CREATE TABLE `controlstockdb`.`tipoproducto` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fechaCreacion` DATETIME NOT NULL,
+  `fechaMod` DATETIME NOT NULL,
+  `borrado` TINYINT NOT NULL,
+  `descripcion` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`));
+
+
 
   
