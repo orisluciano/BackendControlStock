@@ -5,7 +5,8 @@ class ProductoDTO extends DTOBase
 {
     public string $nombre;
     public string $descripcion;
-    public string $codSKU;
+    public string $codigo;
+    public string $tipoCodigo;
     public int $tipoProdId;
 }
 

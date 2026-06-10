@@ -17,7 +17,8 @@ class ProductoServicio implements IProductoServicio
         $nuevo = new Producto();
         $nuevo->_nombre = $producto->nombre;
         $nuevo->_descripcion = $producto->descripcion;
-        $nuevo->_codSKU = $producto->codSKU;
+        $nuevo->_codigo = $producto->codigo;
+        $nuevo->_tipoCodigo = $producto->tipoCodigo;
         $nuevo->_tipoProdId = $producto->tipoProdId;
         $resRepo = $this->_repo->_crear($nuevo);
         $this->_respuesta->errores = $resRepo->errores;
@@ -39,7 +40,8 @@ class ProductoServicio implements IProductoServicio
             $mod->_id =$producto->id;
             $mod->_nombre = $producto->nombre;
             $mod->_descripcion = $producto->descripcion;
-            $mod->_codSKU = $producto->codSKU;
+            $mod->_codigo = $producto->codigo;
+            $mod->_tipoCodigo = $producto->tipoCodigo;
             $mod->_tipoProdId = $producto->tipoProdId;
             $resRepo = $this->_repo->_modificar($mod);
             $this->_respuesta->errores = $resRepo->errores;
@@ -91,7 +93,8 @@ class ProductoServicio implements IProductoServicio
         $t->_fechaCreacion = $dto->fechaCreacion;
         $t->_fechaModif = $dto->fechaModif;
         $t->_nombre = $dto->nombre;
-        $t->_codSKU = $dto->codSKU;
+        $t->_codigo = $dto->codigo;
+        $t->_tipoCodigo = $dto->tipoCodigo;
         $t->_descripcion = $dto->descripcion;
         $t->_tipoProdId = $dto->tipoProdId;
         return $t;
@@ -103,7 +106,8 @@ class ProductoServicio implements IProductoServicio
         $dto->fechaCreacion = $entidad->_fechaCreacion;
         $dto->fechaModif = $entidad->_fechaModif;
         $dto->nombre = $entidad->_nombre;
-        $dto->codSKU = $entidad->_codSKU;
+        $dto->codigo = $entidad->_codigo;
+        $dto->tipoCodigo = $entidad->_tipoCodigo;
         $dto->descripcion = $entidad->_descripcion;
         $dto->tipoProdId = $entidad->_tipoProdId;
         return $dto;

@@ -77,8 +77,11 @@ class ProductoController implements IApiController
                 $respuesta->errores[] = "La descripcion no puede estar vacia";
             }
 
-            if (!property_exists($this->_datos, "codSKU")) {
+            if (!property_exists($this->_datos, "codigo")) {
                 $respuesta->errores[] = "Falta codigo";
+            }
+            if (!property_exists($this->_datos, "tipoCodigo")) {
+                $respuesta->errores[] = "Falta tipoCodigo";
             }
             if (!property_exists($this->_datos, "tipoProductoId")) {
                 $respuesta->errores[] = "Falta tipoProductoId";
@@ -89,7 +92,8 @@ class ProductoController implements IApiController
             //$producto->id = $this->_datos->id;
             $producto->nombre = $this->_datos->nombre;
             $producto->descripcion = $this->_datos->descripcion;
-            $producto->codSKU = $this->_datos->codSKU;
+            $producto->codigo= $this->_datos->codigo;
+            $producto->tipoCodigo= $this->_datos->tipoCodigo;
             $producto->tipoProdId = (int)$this->_datos->tipoProductoId;
             $resServ = $this->_prodServicio->_nuevo($producto);
             $respuesta->respuesta = $resServ->resultado;
@@ -124,7 +128,8 @@ class ProductoController implements IApiController
             $producto->id = $this->_datos->id;
             $producto->nombre = $this->_datos->nombre;
             $producto->descripcion = $this->_datos->descripcion;
-            $producto->codSKU = $this->_datos->codSKU;
+            $producto->codigo = $this->_datos->codigo;
+            $producto->tipoCodigo = $this->_datos->tipoCodigo;
             $producto->tipoProdId = (int)$this->_datos->tipoProductoId;
             $resServ = $this->_prodServicio->_modificar($producto);
             $respuesta->respuesta = $resServ->resultado;
