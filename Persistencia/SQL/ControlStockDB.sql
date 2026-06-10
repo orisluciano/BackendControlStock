@@ -1,4 +1,14 @@
-CREATE TABLE `controlstockdb`.`productos` (`id` INT NOT NULL AUTO_INCREMENT , `fechaCreacion` DATETIME NOT NULL , `fechaMod` DATETIME NOT NULL , `borrado` BOOLEAN NOT NULL , `nombre` VARCHAR(45) NOT NULL , `descripcion` VARCHAR(45) NOT NULL , `codigo` VARCHAR(45) NOT NULL, `tipoCodigo` VARCHAR(45) NOT NULL, `tipoProductoId` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `controlstockdb`.`productos` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `fechaCreacion` DATETIME NOT NULL ,
+  `fechaMod` DATETIME NOT NULL ,
+  `borrado` BOOLEAN NOT NULL ,
+  `nombre` VARCHAR(45) NOT NULL ,
+  `descripcion` VARCHAR(45) NOT NULL ,
+  `codigo` VARCHAR(45) NOT NULL,
+  `tipoCodigo` VARCHAR(45) NOT NULL,
+  `tipoProdId` INT NOT NULL ,
+  PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 CREATE TABLE `controlstockdb`.`precios` (
   `id` INT NOT NULL AUTO_INCREMENT,
