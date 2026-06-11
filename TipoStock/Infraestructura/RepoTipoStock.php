@@ -92,7 +92,7 @@ class RepoTipoStock extends RepoBase implements IRepoTipoStock
         if ($this->_checkErrores($res->errores)) {
             $this->_resRepo->errores[] = "Error al solicitar lista de tipos de stock";
         } else {
-            $Consulta = "SELECT * FROM tipostock";
+            $Consulta = "SELECT * FROM tipostock WHERE borrado = FALSE";
             $sql = $res->conexion->prepare($Consulta);
             try {
                 $sql->execute();
