@@ -14,7 +14,7 @@ class TipoStockServicio  implements ITipoStockServicio
     }
 
     public function _nuevo(TipoStockDTO $stock) : RespuestaServicioDatos{
-        if ($stock->descripcion === null) {
+        if ($stock->descripcion === null || $stock->descripcion === "") {
             $this->_respuesta->errores[] = "La descripcion no puede estar nula";
         }
         if (!$this->_checkErrores($this->_respuesta->errores)) {
@@ -30,7 +30,7 @@ class TipoStockServicio  implements ITipoStockServicio
         if ($stock->id === null) {
             $this->_respuesta->errores[] = "El id no puede estar nulo";
         }
-        if ($stock->descripcion === null) {
+        if ($stock->descripcion === null || $stock->descripcion === "") {
             $this->_respuesta->errores[] = "La descripcion no puede estar nula";
         }
         if (!$this->_checkErrores($this->_respuesta->errores)) {
