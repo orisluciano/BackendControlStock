@@ -14,12 +14,44 @@ class TipoStockServicio  implements ITipoStockServicio
     }
 
     public function _nuevo(TipoStockDTO $stock) : RespuestaServicioDatos{
+        if ($stock->descripcion === null) {
+            $this->_respuesta->errores[] = "La descripcion no puede estar nula";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $tipoStock = new TipoStock();
+            $tipoStock->_descripcion = $stock->descripcion;
+            $resRepo = $this->_repo->_nuevo($tipoStock);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
     public function _modificar(TipoStockDTO $stock) : RespuestaServicioDatos{
+        if ($stock->id === null) {
+            $this->_respuesta->errores[] = "El id no puede estar nulo";
+        }
+        if ($stock->descripcion === null) {
+            $this->_respuesta->errores[] = "La descripcion no puede estar nula";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $tipoStock = new TipoStock();
+            $tipoStock->_id = $stock->id;
+            $tipoStock->_descripcion = $stock->descripcion;
+            $resRepo = $this->_repo->_modificar($tipoStock);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
     public function _eliminar(int $id) : RespuestaServicioDatos{
+        if ($id === null) {
+            $this->_respuesta->errores[] = "El id no puede estar nulo";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $resRepo = $this->_repo->_eliminar($id);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
     public function _getById(int $id) : RespuestaServicioDatos{

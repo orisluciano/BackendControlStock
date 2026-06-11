@@ -7,12 +7,60 @@ require_once "./Utiles/Infraestructura/RepoBase.php";
 class RepoTipoStock extends RepoBase implements IRepoTipoStock
 {
     public function _nuevo(TipoStock $tipoStock) : RespuestaRepositorio{
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al crear tipo de stock";
+        } else {
+            try {
+                $consulta = "INSERT INTO tipostock
+                VALUES (null, curtime(), curtime(), 0, :descripcion)";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":descripcion", $tipoStock->_descripcion);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Creacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
         return $this->_resRepo;
     }
     public function _modificar(TipoStock $tipoStock) : RespuestaRepositorio{
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al modificar tipo de stock";
+        } else {
+            try {
+                $consulta = "UPDATE tipostock
+                SET descripcion = :descripcion
+                WHERE id = :id";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":id", $tipoStock->_id);
+                $servicio->bindValue(":descripcion", $tipoStock->_descripcion);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Modificacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
         return $this->_resRepo;
     }
     public function _eliminar(int $id) : RespuestaRepositorio{
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al modificar tipo de stock";
+        } else {
+            try {
+                $consulta = "UPDATE tipostock
+                SET borrado = true
+                WHERE id = :id";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":id", $id);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Eliminacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
         return $this->_resRepo;
     }
 
