@@ -87,6 +87,31 @@ class ProductoServicio implements IProductoServicio
         return $respuesta;
     }
 
+    public function _getByCodigo(string $codigo, string $tipoCodigo) : RespuestaServicioDatos{
+        $respuesta = new RespuestaServicioDatos();
+        if ($codigo === null || $codigo === "") {
+            $this->_respuesta->errores[] = "El codigo no puede estar nulo";
+        }
+        if ($tipoCodigo=== null || $tipoCodigo === "") {
+            $this->_respuesta->errores[] = "El tipoCodigo no puede estar nulo";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $resRepo = $this->_repo->_getByCodigo($codigo, $tipoCodigo);
+            if ($this->_checkErrores($resRepo->errores)) {
+                $respuesta->errores = $resRepo->errores;
+                $respuesta->errores[] = "Error en el servicio";
+            } else {
+                $listaT = $resRepo->resultado;
+                $listaMapeada = [];
+                foreach ($listaT as $key) {
+                    $listaMapeada[] = $this->_MapearEntidadDto($key);
+                }
+                $respuesta->resultado = $listaMapeada;
+            }
+        }
+        return $respuesta;
+    }
+
     private function _MapearDtoEntidad(ProductoDTO $dto) : Producto {
         $t = new Producto();
         $t->_id = $dto->id;

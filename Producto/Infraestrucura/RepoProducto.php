@@ -131,6 +131,34 @@ class RepoProducto implements IRepoProducto
         return ($this->_resRepo);
     }
 
+    public function _getByCodigo(string $codigo, string $tipoCodigo) : RespuestaRepositorio {
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al solicitar producto";
+        } else {
+            $Consulta = "SELECT * FROM productos
+            WHERE borrado = false
+            AND producto = '" . $codigo . "'
+            AND tipoCodigo = ' " . $tipoCodigo . "'";
+            $sql = $res->conexion->prepare($Consulta);
+            try {
+                $sql->execute();
+                $sql->setFetchMode(PDO::FETCH_ASSOC);
+                $respuestaBase = $sql->fetchAll();
+                $producto = null;
+                if (count($respuestaBase) > 0) {
+                    $producto = $this->_MapearEntidad($respuestaBase[0]);
+                }else {
+                    $this->_resRepo->errores[] = "No coincide con ningun producto";
+                }
+                $this->_resRepo->resultado = $producto;
+            } catch (\Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
+        return ($this->_resRepo);
+    }
+
     private function _MapearEntidad($respuestaBase) : Producto
     {
         $t = new Producto();

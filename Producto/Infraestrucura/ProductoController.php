@@ -49,6 +49,17 @@ class ProductoController implements IApiController
         $respuesta = new RespuestaPeticion();
         if ($this->_parametros != null) {
             if (count($this->_parametros) > 1) {
+                switch ($this->_parametros) {
+                    case is_numeric($this->_parametros[0]):
+                        $respuesta = $this->_getProductos();
+                        break;
+                    case (is_string($this->_parametros[0]) || $this->_parametros[0] === "codigo"):
+                        $respuesta = $this->_getByCodigo();
+                        break;
+                    default:
+                        $respuesta->errores[] = "No coincide ningun parametro";
+                        break;
+                }
                 $respuesta = $this->_getProductos();
             } else {
                 $respuesta = $this->_getproducto();
@@ -174,6 +185,18 @@ class ProductoController implements IApiController
             $resServ = $this->_prodServicio->_getProductos($this->_parametros[0], $this->_parametros[1]);
             $respuesta->respuesta["resultados"] = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
+        }
+        return $respuesta;
+    }
+
+    protected function _getByCodigo() : RespuestaPeticion {
+        $respuesta = new RespuestaPeticion();
+        $producto = $this->_prodServicio->_getByCodigo($this->_parametros[0], $this->_parametros[1]);
+        if (count($producto->errores) > 0) {
+            $respuesta->errores = $producto->errores;
+        } else {
+            $respuesta->respuesta = $producto->resultado;
+            $respuesta->mensajes = $producto->mensajes;
         }
         return $respuesta;
     }
