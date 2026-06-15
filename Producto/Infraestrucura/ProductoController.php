@@ -53,14 +53,13 @@ class ProductoController implements IApiController
                     case is_numeric($this->_parametros[0]):
                         $respuesta = $this->_getProductos();
                         break;
-                    case (is_string($this->_parametros[0]) || $this->_parametros[0] === "codigo"):
+                    case (is_string($this->_parametros[0]) && $this->_parametros[0] === "codigo"):
                         $respuesta = $this->_getByCodigo();
                         break;
                     default:
                         $respuesta->errores[] = "No coincide ningun parametro";
                         break;
                 }
-                $respuesta = $this->_getProductos();
             } else {
                 $respuesta = $this->_getproducto();
             }
@@ -191,7 +190,7 @@ class ProductoController implements IApiController
 
     protected function _getByCodigo() : RespuestaPeticion {
         $respuesta = new RespuestaPeticion();
-        $producto = $this->_prodServicio->_getByCodigo($this->_parametros[0], $this->_parametros[1]);
+        $producto = $this->_prodServicio->_getByCodigo($this->_parametros[1], $this->_parametros[2]);
         if (count($producto->errores) > 0) {
             $respuesta->errores = $producto->errores;
         } else {

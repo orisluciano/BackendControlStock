@@ -101,12 +101,7 @@ class ProductoServicio implements IProductoServicio
                 $respuesta->errores = $resRepo->errores;
                 $respuesta->errores[] = "Error en el servicio";
             } else {
-                $listaT = $resRepo->resultado;
-                $listaMapeada = [];
-                foreach ($listaT as $key) {
-                    $listaMapeada[] = $this->_MapearEntidadDto($key);
-                }
-                $respuesta->resultado = $listaMapeada;
+                $respuesta->resultado = $this->_MapearEntidadDto($resRepo->resultado[0]);
             }
         }
         return $respuesta;

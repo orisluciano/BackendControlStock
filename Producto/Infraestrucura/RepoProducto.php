@@ -137,9 +137,8 @@ class RepoProducto implements IRepoProducto
             $this->_resRepo->errores[] = "Error al solicitar producto";
         } else {
             $Consulta = "SELECT * FROM productos
-            WHERE borrado = false
-            AND producto = '" . $codigo . "'
-            AND tipoCodigo = ' " . $tipoCodigo . "'";
+            WHERE codigo = '" . $codigo .
+            "' AND tipoCodigo = '" . $tipoCodigo . "' AND borrado = false";
             $sql = $res->conexion->prepare($Consulta);
             try {
                 $sql->execute();
@@ -151,7 +150,7 @@ class RepoProducto implements IRepoProducto
                 }else {
                     $this->_resRepo->errores[] = "No coincide con ningun producto";
                 }
-                $this->_resRepo->resultado = $producto;
+                $this->_resRepo->resultado[] = $producto;
             } catch (\Throwable $th) {
                 $this->_resRepo->errores[] = $th->getMessage();
             }
