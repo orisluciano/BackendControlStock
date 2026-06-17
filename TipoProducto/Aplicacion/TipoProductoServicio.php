@@ -13,14 +13,46 @@ class TipoProductoServicio implements ITipoProductoServicio
     }
 
     public function _nuevo(TipoProductoDTO $TipoProducto) : RespuestaServicioDatos{
+        if ($TipoProducto->descripcion === null || $TipoProducto->descripcion === "") {
+            $this->_respuesta->errores[] = "La descripcion no puede estar nula";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $tipoProducto = new TipoProducto();
+            $tipoProducto->_descripcion = $TipoProducto->descripcion;
+            $resRepo = $this->_repo->_crear($tipoProducto);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
 
     public function _modificar(TipoProductoDTO $TipoProducto) : RespuestaServicioDatos{
+        if ($TipoProducto->id === null) {
+            $this->_respuesta->errores[] = "El id no puede estar nulo";
+        }
+        if ($TipoProducto->descripcion === null || $TipoProducto->descripcion === "") {
+            $this->_respuesta->errores[] = "La descripcion no puede estar nula";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $tipoProd = new TipoProducto();
+            $tipoProd->_id = $TipoProducto->id;
+            $tipoProd->_descripcion = $TipoProducto->descripcion;
+            $resRepo = $this->_repo->_modificar($tipoProd);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
 
     public function _eliminar(int $id) : RespuestaServicioDatos{
+        if ($id === null) {
+            $this->_respuesta->errores[] = "El id no puede estar nulo";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $resRepo = $this->_repo->_eliminar($id);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
 

@@ -70,26 +70,14 @@ class TipoProductoController implements IApiController
         if (empty($this->_datos)) {
             $respuesta->errores[] = "Faltan todos los datos";
         }else {
-            if (!property_exists($this->_datos, "minimo") || $this->_datos->minimo === "") {
-                $respuesta->errores[] = "Falta minimo del stock";
-            }
-            if (!property_exists($this->_datos, "maximo") || $this->_datos->maximo === "") {
-                $respuesta->errores[] = "Falta maximo del stock";
-            }
-            if (!property_exists($this->_datos, "tipoStockId") || $this->_datos->tipoStockId === "") {
-                $respuesta->errores[] = "Falta tipoStockId";
-            }
-            if (!property_exists($this->_datos, "productoId") || $this->_datos->productoId === "") {
-                $respuesta->errores[] = "Falta productoId";
+            if (!property_exists($this->_datos, "descripcion") || $this->_datos->descripcion === "") {
+                $respuesta->errores[] = "Falta descripcion";
             }
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $stock = new StockDTO();
-            $stock->minimo = (float)$this->_datos->minimo;
-            $stock->maximo = (float)$this->_datos->maximo;
-            $stock->tipoStockId = (int)$this->_datos->tipoStockId;
-            $stock->productoId = (int)$this->_datos->productoId;
-            $resServ = $this->_stockServicio->_nuevo($stock);
+            $tipoProd = new TipoProductoDTO();
+            $tipoProd->descripcion = (string)$this->_datos->descripcion;
+            $resServ = $this->_tipoProductoServicio->_nuevo($tipoProd);
             $respuesta->respuesta = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
             $respuesta->mensajes = $resServ->mensajes;
@@ -105,31 +93,15 @@ class TipoProductoController implements IApiController
             if (!property_exists($this->_datos, "id" )|| $this->_datos->id === null) {
                 $respuesta->errores[] = "Falta id";
             }
-            if (!property_exists($this->_datos, "actual") || $this->_datos->actual === null) {
-                $respuesta->errores[] = "Falta actual";
-            }
-            if (!property_exists($this->_datos, "minimo") || $this->_datos->minimo === null) {
-                $respuesta->errores[] = "Falta minimo del stock";
-            }
-            if (!property_exists($this->_datos, "maximo") || $this->_datos->maximo === null) {
-                $respuesta->errores[] = "Falta maximo del stock";
-            }
-            if (!property_exists($this->_datos, "tipoStockId") || $this->_datos->tipoStockId === null) {
-                $respuesta->errores[] = "Falta tipoStockId";
-            }
-            if (!property_exists($this->_datos, "productoId") || $this->_datos->productoId === null) {
-                $respuesta->errores[] = "Falta productoId";
+            if (!property_exists($this->_datos, "descripcion") || $this->_datos->descripcion === null) {
+                $respuesta->errores[] = "Falta descripcion";
             }
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $stock = new StockDTO();
-            $stock->id = (int)$this->_datos->id;
-            $stock->actual = (float)$this->_datos->actual;
-            $stock->minimo = (float)$this->_datos->minimo;
-            $stock->maximo = (float)$this->_datos->maximo;
-            $stock->tipoStockId = (int)$this->_datos->tipoStockId;
-            $stock->productoId = (int)$this->_datos->productoId;
-            $resServ = $this->_stockServicio->_modificar($stock);
+            $tipoProd = new TipoProductoDTO();
+            $tipoProd->id = (int)$this->_datos->id;
+            $tipoProd->descripcion = (string)$this->_datos->descripcion;
+            $resServ = $this->_tipoProductoServicio->_modificar($tipoProd);
             $respuesta->respuesta = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
             $respuesta->mensajes = $resServ->mensajes;
@@ -146,7 +118,7 @@ class TipoProductoController implements IApiController
             }
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $resServ = $this->_prodServicio->_eliminar($this->_datos->id);
+            $resServ = $this->_tipoProductoServicio->_eliminar($this->_datos->id);
             $respuesta->respuesta = $resServ->resultado;
             $respuesta->errores = $resServ->errores;
             $respuesta->mensajes = $resServ->mensajes;

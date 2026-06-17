@@ -7,12 +7,60 @@ require_once "./Utiles/Infraestructura/RepoBase.php";
 class RepoTipoProducto extends RepoBase implements IRepoTipoProducto
 {
     public function _crear(TipoProducto $TipoProducto) : RespuestaRepositorio{
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al crear tipo de producto";
+        } else {
+            try {
+                $consulta = "INSERT INTO tipoproducto
+                VALUES (null, curtime(), curtime(), 0, :descripcion)";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":descripcion", $TipoProducto->_descripcion);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Creacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
         return $this->_resRepo;
     }
     public function _modificar(TipoProducto $TipoProducto) : RespuestaRepositorio{
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al modificar tipo de producto";
+        } else {
+            try {
+                $consulta = "UPDATE tipoproducto
+                SET descripcion = :descripcion
+                WHERE id = :id";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":id", $TipoProducto->_id);
+                $servicio->bindValue(":descripcion", $TipoProducto->_descripcion);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Modificacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
         return $this->_resRepo;
     }
     public function _eliminar(int $id) : RespuestaRepositorio{
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al eliminar tipo de producto";
+        } else {
+            try {
+                $consulta = "UPDATE tipoproducto
+                SET borrado = true
+                WHERE id = :id";
+                $servicio = $res->conexion->prepare($consulta);
+                $servicio->bindValue(":id", $id);
+                $servicio->execute();
+                $this->_resRepo->mensajes[] = "Eliminacion exitosa";
+            } catch (Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
         return $this->_resRepo;
     }
     public function _getById(int $id) : RespuestaRepositorio{
