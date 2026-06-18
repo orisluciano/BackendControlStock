@@ -13,14 +13,54 @@ class MotivoServicio implements IMotivoServicio
     }
 
     public function _nuevo(MotivoDTO $motivo) : RespuestaServicioDatos{
+        if ($motivo->descripcion === null || $motivo->descripcion === "") {
+            $this->_respuesta->errores[] = "La descripcion no puede estar nula";
+        }
+        if ($motivo->tipo === null || $motivo->tipo === "") {
+            $this->_respuesta->errores[] = "El tipo no puede estar nulo";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $motiv = new Motivo();
+            $motiv->_tipo = $motivo->tipo;
+            $motiv->_descripcion = $motivo->descripcion;
+            $resRepo = $this->_repo->_crear($motiv);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
 
     public function _modificar(MotivoDTO $motivo) : RespuestaServicioDatos{
+        if ($motivo->id === null) {
+            $this->_respuesta->errores[] = "El id no puede estar nulo";
+        }
+        if ($motivo->descripcion === null || $motivo->descripcion === "") {
+            $this->_respuesta->errores[] = "La descripcion no puede estar nula";
+        }
+        if ($motivo->tipo === null || $motivo->tipo === "") {
+            $this->_respuesta->errores[] = "El tipo no puede estar nulo";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $motiv = new Motivo();
+            $motiv->_id = $motivo->id;
+            $motiv->_tipo = $motivo->tipo;
+            $motiv->_descripcion = $motivo->descripcion;
+            $resRepo = $this->_repo->_modificar($motiv);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
 
     public function _eliminar(int $id) : RespuestaServicioDatos{
+        if ($id === null) {
+            $this->_respuesta->errores[] = "El id no puede estar nulo";
+        }
+        if (!$this->_checkErrores($this->_respuesta->errores)) {
+            $resRepo = $this->_repo->_eliminar($id);
+            $this->_respuesta->errores = $resRepo->errores;
+            $this->_respuesta->mensajes = $resRepo->mensajes;
+        }
         return $this->_respuesta;
     }
 
