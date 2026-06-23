@@ -107,6 +107,23 @@ class ProductoServicio implements IProductoServicio
         return $respuesta;
     }
 
+    public function _getTodosProductos() : RespuestaServicioDatos{
+        $respuesta = new RespuestaServicioDatos();
+        $resRepo = $this->_repo->_getProductos();
+        if ($this->_checkErrores($resRepo->errores)) {
+            $respuesta->errores = $resRepo->errores;
+            $respuesta->errores[] = "Error en el servicio";
+        } else {
+            $listaT = $resRepo->resultado;
+            $listaMapeada = [];
+            foreach ($listaT as $key) {
+                $listaMapeada[] = $this->_MapearEntidadDto($key);
+            }
+            $respuesta->resultado = $listaMapeada;
+        }
+        return $respuesta;
+    }
+
     private function _MapearDtoEntidad(ProductoDTO $dto) : Producto {
         $t = new Producto();
         $t->_id = $dto->id;

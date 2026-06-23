@@ -8,5 +8,6 @@ interface IProductoServicio
     public function _getProductos(int $desde, int $cantidad) : RespuestaServicioDatos;
     public function _getCantidad() : RespuestaServicioDatos;
     public function _getByCodigo(string $codigo, string $tipoCodigo) : RespuestaServicioDatos;
+    public function _getTodosProductos() : RespuestaServicioDatos;
 }
 ?>

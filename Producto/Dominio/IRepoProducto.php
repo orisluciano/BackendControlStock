@@ -7,7 +7,8 @@ interface IRepoProducto
     public function _getById(int $id) : RespuestaRepositorio;
     public function _getTodo(int $desde, int $cantidad) : RespuestaRepositorio;
     public function _getCantidad() : RespuestaRepositorio;
-    public function _getByCodigo(string $codigo, string $tipoCodigo) : RespuestaRepositorio; 
+    public function _getByCodigo(string $codigo, string $tipoCodigo) : RespuestaRepositorio;
+    public function _getProductos() : RespuestaRepositorio;
 }
 
 ?>

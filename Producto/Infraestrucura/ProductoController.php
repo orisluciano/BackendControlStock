@@ -65,7 +65,7 @@ class ProductoController implements IApiController
             }
             
         } else {
-            $respuesta->errores[] = "No se proporciono ningun parametro";
+            $respuesta = $this->_getTodosProductos();
         }
         return $respuesta;
     }
@@ -187,6 +187,18 @@ class ProductoController implements IApiController
     protected function _getByCodigo() : RespuestaPeticion {
         $respuesta = new RespuestaPeticion();
         $producto = $this->_prodServicio->_getByCodigo($this->_parametros[1], $this->_parametros[2]);
+        if (count($producto->errores) > 0) {
+            $respuesta->errores = $producto->errores;
+        } else {
+            $respuesta->respuesta = $producto->resultado;
+            $respuesta->mensajes = $producto->mensajes;
+        }
+        return $respuesta;
+    }
+
+    protected function _getTodosProductos() : RespuestaPeticion {
+        $respuesta = new RespuestaPeticion();
+        $producto = $this->_prodServicio->_getTodosProductos();
         if (count($producto->errores) > 0) {
             $respuesta->errores = $producto->errores;
         } else {
