@@ -12,5 +12,6 @@ class Rutas
     public string $movimientoStock = "movimientoStock";
     public string $tipoMovimiento = "tipoMovimiento";
     public string $motivoMovimiento = "motivo";
+    public string $escaner = "escaner";
 }
 ?>

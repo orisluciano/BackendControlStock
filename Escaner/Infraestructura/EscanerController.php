@@ -47,26 +47,7 @@ class EscanerController implements IApiController
 
     public function _get(){
         $respuesta = new RespuestaPeticion();
-        if ($this->_parametros != null) {
-            if (count($this->_parametros) > 1) {
-                switch ($this->_parametros) {
-                    case is_numeric($this->_parametros[0]):
-                        $respuesta = $this->_getProductos();
-                        break;
-                    case (is_string($this->_parametros[0]) && $this->_parametros[0] === "codigo"):
-                        $respuesta = $this->_getByCodigo();
-                        break;
-                    default:
-                        $respuesta->errores[] = "No coincide ningun parametro";
-                        break;
-                }
-            } else {
-                $respuesta = $this->_getproducto();
-            }
-            
-        } else {
-            $respuesta = $this->_getTodosProductos();
-        }
+        $respuesta->errores[] = "Metodo equivocado";
         return $respuesta;
     }
     public function _post(){
@@ -74,100 +55,32 @@ class EscanerController implements IApiController
         if (empty($this->_datos)) {
             $respuesta->errores[] = "Faltan todos los datos";
         }else {
-            if (!property_exists($this->_datos, "nombre") || $this->_datos->nombre === "") {
-                $respuesta->errores[] = "Falta nombre del producto";
-            }
-            if (!property_exists($this->_datos, "descripcion")) {
-                $respuesta->errores[] = "Falta descripcion del producto";
-            }elseif ($this->_datos->descripcion === null) {
-                $respuesta->errores[] = "La descripcion no puede estar vacia";
-            }
-
-            if (!property_exists($this->_datos, "codigo")) {
+            if (!property_exists($this->_datos, "codigo") || $this->_datos->codigo === "") {
                 $respuesta->errores[] = "Falta codigo";
             }
-            if (!property_exists($this->_datos, "tipoCodigo")) {
+            if (!property_exists($this->_datos, "tipoCodigo") || $this->_datos->tipoCodigo === "") {
                 $respuesta->errores[] = "Falta tipoCodigo";
-            }
-            if (!property_exists($this->_datos, "tipoProductoId")) {
-                $respuesta->errores[] = "Falta tipoProductoId";
             }
         }
         if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $producto = new ProductoDTO();
-            //$producto->id = $this->_datos->id;
-            $producto->nombre = $this->_datos->nombre;
-            $producto->descripcion = $this->_datos->descripcion;
-            $producto->codigo= $this->_datos->codigo;
-            $producto->tipoCodigo= $this->_datos->tipoCodigo;
-            $producto->tipoProdId = (int)$this->_datos->tipoProductoId;
-            $resServ = $this->_prodServicio->_nuevo($producto);
-            $respuesta->respuesta = $resServ->resultado;
-            $respuesta->errores = $resServ->errores;
-            $respuesta->mensajes = $resServ->mensajes;
+           $respuesta = $this->_getByCodigo();
         }
         return $respuesta;
     }
     public function _put(){
         $respuesta = new RespuestaPeticion();
-        if (empty($this->_datos)) {
-            $respuesta->errores[] = "Faltan todos los datos";
-        }else {
-            if (!property_exists($this->_datos, "id" )|| $this->_datos->id === null) {
-                $respuesta->errores[] = "Falta id";
-            }
-            if (!property_exists($this->_datos, "nombre") || $this->_datos->nombre === null) {
-                $respuesta->errores[] = "Falta nombre del producto";
-            }
-            if (!property_exists($this->_datos, "descripcion") || $this->_datos->descripcion === null) {
-                $respuesta->errores[] = "Falta descripcion del producto";
-            }
-            if (!property_exists($this->_datos, "codigo")) {
-                $respuesta->errores[] = "Falta codigo";
-            }
-            if (!property_exists($this->_datos, "tipoCodigo")) {
-                $respuesta->errores[] = "Falta tipoCodigo";
-            }
-            if (!property_exists($this->_datos, "tipoProductoId")) {
-                $respuesta->errores[] = "Falta tipoProductoId";
-            }
-        }
-        if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $producto = new ProductoDTO();
-            $producto->id = $this->_datos->id;
-            $producto->nombre = $this->_datos->nombre;
-            $producto->descripcion = $this->_datos->descripcion;
-            $producto->codigo = $this->_datos->codigo;
-            $producto->tipoCodigo = $this->_datos->tipoCodigo;
-            $producto->tipoProdId = (int)$this->_datos->tipoProductoId;
-            $resServ = $this->_prodServicio->_modificar($producto);
-            $respuesta->respuesta = $resServ->resultado;
-            $respuesta->errores = $resServ->errores;
-            $respuesta->mensajes = $resServ->mensajes;
-        }
+        $respuesta->errores[] = "Metodo equivocado";
         return $respuesta;
     }
     public function _delete(){
         $respuesta = new RespuestaPeticion();
-        if (empty($this->_datos)) {
-            $respuesta->errores[] = "Faltan todos los datos";
-        }else {
-            if (!property_exists($this->_datos, "id" )|| $this->_datos->id === null) {
-                $respuesta->errores[] = "Falta id";
-            }
-        }
-        if (count($respuesta->errores) === 0 || $respuesta->errores === null) {
-            $resServ = $this->_prodServicio->_eliminar($this->_datos->id);
-            $respuesta->respuesta = $resServ->resultado;
-            $respuesta->errores = $resServ->errores;
-            $respuesta->mensajes = $resServ->mensajes;
-        }
+        $respuesta->errores[] = "Metodo equivocado";
         return $respuesta;
     }
 
     protected function _getByCodigo() : RespuestaPeticion {
         $respuesta = new RespuestaPeticion();
-        $producto = $this->_prodServicio->_getByCodigo($this->_parametros[1], $this->_parametros[2]);
+        $producto = $this->_prodServicio->_getByCodigo($this->_datos->codigo, $this->_datos->tipoCodigo);
         if (count($producto->errores) > 0) {
             $respuesta->errores = $producto->errores;
         } else {
