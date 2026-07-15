@@ -16,9 +16,15 @@ class RepoProducto implements IRepoProducto
     }
 
     public function _crear(Producto $entidad) : RespuestaRepositorio{
+        if ($this->_checkNombre($entidad->_nombre)) {
+            $this->_resRepo->errores[] = "El nombre ya existe";
+        }
         $res = $this->_conn->connect();
         if ($this->_checkErrores($res->errores)) {
             $this->_resRepo->errores[] = "Error al crear producto";
+        } 
+        if (count($this->_resRepo->errores) > 0) {
+            # code...
         } else {
             try {
                 $consulta = "INSERT INTO productos
@@ -180,6 +186,39 @@ class RepoProducto implements IRepoProducto
             }
         }
         return ($this->_resRepo);
+    }
+
+    private function _checkNombre($nombre) : bool {
+        $bandera = false;
+        $res = $this->_conn->connect();
+        if ($this->_checkErrores($res->errores)) {
+            $this->_resRepo->errores[] = "Error al solicitar producto";
+        } else {
+            $Consulta = "SELECT * FROM productos
+            WHERE nombre = '" . $nombre . "' AND borrado = false";
+            $sql = $res->conexion->prepare($Consulta);
+            try {
+                $sql->execute();
+                $sql->setFetchMode(PDO::FETCH_ASSOC);
+                $respuestaBase = $sql->fetchAll();
+                $producto = null;
+                if (count($respuestaBase) > 0) {
+                    $bandera = true;
+                }else {
+                    //$this->_resRepo->errores[] = "No coincide con ningun producto";
+                }
+                $this->_resRepo->resultado[] = $producto;
+            } catch (\Throwable $th) {
+                $this->_resRepo->errores[] = $th->getMessage();
+            }
+        }
+        /*if (count($this->_resRepo->errores) === 0 && count($this->_resRepo->resultado) > 0) {
+            $bandera = true;
+        } else {
+            $bandera = false;
+        }*/
+        
+        return $bandera;
     }
 
     private function _MapearEntidad($respuestaBase) : Producto
